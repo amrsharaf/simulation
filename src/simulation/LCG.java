@@ -1,7 +1,7 @@
+package simulation;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.org.apache.bcel.internal.generic.LNEG;
 
 public class LCG {
 	long a;
