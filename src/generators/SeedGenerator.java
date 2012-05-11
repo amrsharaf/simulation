@@ -12,7 +12,7 @@ public class SeedGenerator {
 	int index = 0;
 	
 	public SeedGenerator() {
-		lcg = new LCG(16807, 0, 2147483647, 1);
+		lcg = LCG.getPrimaryLCG(1);
 		init();
 	}
 	
@@ -31,8 +31,6 @@ public class SeedGenerator {
 			if (seeds.size() == SEEDS_COUNT) break;
 		}
 		
-		System.out.println(seeds.size());
-		System.out.println(seeds);
 	}
 	
 	public long getNextSeed(){
@@ -45,7 +43,6 @@ public class SeedGenerator {
 		SeedGenerator s =  new SeedGenerator();
 		long s1 = s.getNextSeed();
 		long s2 = s.getNextSeed();
-		System.out.println("A " + s1);
 		LCG lcg1 = LCG.getPrimaryLCG(s1);
 		LCG lcg2 = LCG.getPrimaryLCG(s2);
 		HashSet<Long> set = new HashSet<Long>();
