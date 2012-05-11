@@ -13,6 +13,12 @@ public interface Event {
 	 * @return event occurrence time.
 	 */
 	public double getEventTime();
+
+	/**
+	 * Sets the event occurrence time.
+	 * @param time event occurrence time.
+	 */
+	public void setEventTime(double time);
 	
 	/**
 	 * Handle the event and update the simulator state.

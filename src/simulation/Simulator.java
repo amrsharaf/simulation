@@ -13,15 +13,48 @@ public class Simulator {
 	/**
 	 * Priority queue used for storing the simulation events.
 	 */
-	PriorityQueue<Event> events = new PriorityQueue<Event>();
-	
+	private PriorityQueue<Event> events = new PriorityQueue<Event>();
+
+	/**
+	 * Total number of jobs in the machining center, including the current job
+	 * being served.
+	 */
+	private int nMachiningCenter;
+
 	/**
 	 * Simulation master clock.
 	 */
-	double masterClock;
+	private double masterClock;
 
 	/**
-	 * This function is used to initialize the simulation attributes
+	 * Set the simulation master clock.
+	 * 
+	 * @param masterClock
+	 *            the master clock to set.
+	 */
+	public void setMasterClock(double masterClock) {
+		this.masterClock = masterClock;
+	}
+	
+	/**
+	 * Returns the simulation master clock.
+	 * @return master clock.
+	 */
+	public double getMasterClock() {
+		return masterClock;
+	}
+
+	/**
+	 * Returns the total number of jobs in the machining center.
+	 * 
+	 * @return total number of jobs in machining center.
+	 */
+	public int getNmachiningCenter() {
+		return nMachiningCenter;
+	}
+
+	/**
+	 * This function is used to initialize the simulation attributes.
 	 */
 	public void init() {
 		masterClock = 0.0;
@@ -30,9 +63,9 @@ public class Simulator {
 	}
 
 	/**
-	 * Used to detect if the simulation has ended
+	 * Used to detect if the simulation has ended.
 	 * 
-	 * @return true when the simulation has ended
+	 * @return true when the simulation has ended.
 	 */
 	public boolean simulationDone() {
 		return false;
@@ -41,7 +74,7 @@ public class Simulator {
 	/**
 	 * This method is the main method used for running the simulation.
 	 */
-	public void mainModule() {
+	public void runSimulation() {
 		while (!simulationDone()) {
 			// Select nearest event to execute
 			Event nearestEvent = events.poll();
@@ -50,7 +83,13 @@ public class Simulator {
 		}
 	}
 
+	/**
+	 * Application main entry point. Used to run the simulation
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		new Simulator().mainModule();
+		// start the simulation
+		new Simulator().runSimulation();
 	}
 }
