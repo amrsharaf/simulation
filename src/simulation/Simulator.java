@@ -69,6 +69,7 @@ public class Simulator {
 	public void init() {
 		masterClock = 0.0;
 		Event machiningCenterArrival = new MachiningCenterArrival(this);
+		machiningCenterArrival.setEventTime(1);
 		events.add(machiningCenterArrival);
 		machiningCenter = new MachiningCenter(this);
 	}
@@ -98,18 +99,29 @@ public class Simulator {
 		while (!simulationDone()) {
 			// Select nearest event to execute
 			Event nearestEvent = events.poll();
+			System.out.println(nearestEvent.getEventTime() +" "+nearestEvent.getEventType());
 			// Handle the event
 			nearestEvent.handleEvent();
 		}
 	}
 
 	/**
+	 * Adds a new event to the events list
+	 * @param event event to be added
+	 */
+	public void addEvent(Event event) {
+		events.add(event);
+	}
+	
+	/**
 	 * Application main entry point. Used to run the simulation
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		Simulator simulator = new Simulator();
+		simulator.init();
 		// start the simulation
-		new Simulator().runSimulation();
+		simulator.runSimulation();
 	}
 }

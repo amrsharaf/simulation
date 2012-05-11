@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.PriorityQueue;
+
 /**
  * @author Amr Sharaf
  * 
@@ -9,6 +11,11 @@ package simulation;
  */
 public class MachiningCenter {
 
+	/**
+	 * Machining center queue
+	 */
+	private PriorityQueue<MachiningCenterArrival> queue;
+	
 	/**
 	 * Simulator controller.
 	 */
@@ -25,6 +32,9 @@ public class MachiningCenter {
 	 */
 	public MachiningCenter(Simulator simulator) {
 		this.simulator = simulator;
+		queue = new PriorityQueue<MachiningCenterArrival>();
+		// TODO: replace with a random generator
+		serviceTime = 5;
 	}
 	
 	public void startService(Item item) {
@@ -34,12 +44,27 @@ public class MachiningCenter {
 		// Set the departure time to be the current simulation time + service
 		// time.
 		departure.setEventTime(masterClock + serviceTime);
-		item.setInspectionCenterDepartureTime(departure.getEventTime());
+		simulator.addEvent(departure);
+		item.setMachiningCenterDepartureTime(departure.getEventTime());
 		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
 		// TODO: use random generation here
 		// Schedule new arrival event
 		Event arrival = new MachiningCenterArrival(simulator);
-		arrival.setEventTime(departure.getEventTime() + 10);
+		arrival.setEventTime(masterClock + 1);
+		simulator.addEvent(arrival);
 		serviceTime = 5;
+	}
+	
+	/**
+	 * Enqueue event at the waiting queue.
+	 * @param event event to enqueue.
+	 */
+	public void enqueue(MachiningCenterArrival event) {
+		queue.add(event);
+	}
+	
+	public MachiningCenterArrival dequeue() {
+		MachiningCenterArrival closestEvent = queue.poll();
+		return closestEvent;
 	}
 }

@@ -1,6 +1,6 @@
 package simulation;
 
-public class MachiningCenterDeparture implements Event {
+public class MachiningCenterDeparture implements Event, Comparable<Event> {
 
 	/**
 	 * Event type.
@@ -41,9 +41,9 @@ public class MachiningCenterDeparture implements Event {
 		simulator.setMasterClock(eventTime);
 		// log (MC, N)
 		if (nMachiningCenter > 0) {
-			// IF (N>0) THEN
-			// Select nearest time arrival of machine to start service
-			// start_service(machine)			
+			MachiningCenter machiningCenter = simulator.getMachiningCenter();
+			MachiningCenterArrival closestArrival = machiningCenter.dequeue();
+			machiningCenter.startService(closestArrival.getItem());			
 		}
 	}
 
@@ -55,6 +55,11 @@ public class MachiningCenterDeparture implements Event {
 	@Override
 	public void setEventTime(double time) {
 		this.eventTime = time;
+	}
+
+	@Override
+	public int compareTo(Event other) {
+		return new Double(eventTime).compareTo(other.getEventTime());
 	}
 
 }

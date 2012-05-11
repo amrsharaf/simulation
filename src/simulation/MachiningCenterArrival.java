@@ -1,6 +1,6 @@
 package simulation;
 
-public class MachiningCenterArrival implements Event {
+public class MachiningCenterArrival implements Event, Comparable<Event> {
 
 	/**
 	 * Simulator controller object.
@@ -22,6 +22,10 @@ public class MachiningCenterArrival implements Event {
 	 */
 	private Item item;
 
+	/**
+	 * Machining center arrival event constructor
+	 * @param simulator
+	 */
 	public MachiningCenterArrival(Simulator simulator) {
 		this.simulator = simulator;
 		item = new Item();
@@ -31,6 +35,14 @@ public class MachiningCenterArrival implements Event {
 	public double getEventTime() {
 		return eventTime;
 	}
+	
+	/**
+	 * Return the arrival item
+	 * @return arrival item
+	 */
+	public Item getItem() {
+		return item;
+	}
 
 	@Override
 	public void handleEvent() {
@@ -39,9 +51,12 @@ public class MachiningCenterArrival implements Event {
 		simulator.setNmachiningCenter(nMachiningCenter);
 		simulator.setMasterClock(eventTime);
 		// log (MC , N)
+		MachiningCenter machiningCenter = simulator.getMachiningCenter();
 		if (nMachiningCenter == 1) {
-			MachiningCenter machiningCenter = simulator.getMachiningCenter();
 			machiningCenter.startService(item);
+		} else {
+			// Queue current request
+			machiningCenter.enqueue(this);
 		}
 	}
 
@@ -54,6 +69,11 @@ public class MachiningCenterArrival implements Event {
 	public void setEventTime(double time) {
 		this.eventTime = time;
 		this.item.setMachiningCenterArrivalTime(eventTime);
+	}
+
+	@Override
+	public int compareTo(Event other) {
+		return new Double(eventTime).compareTo(other.getEventTime());
 	}
 
 }
