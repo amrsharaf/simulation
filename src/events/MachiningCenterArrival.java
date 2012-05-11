@@ -58,7 +58,7 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 		arrival.setEventTime(eventTime + 1);
 		simulator.addEvent(arrival);
 		MachiningCenter machiningCenter = simulator.getMachiningCenter();
-		if (nMachiningCenter == 1) {
+		if (nMachiningCenter == 1 && !machiningCenter.isInRepair()) {
 			machiningCenter.startService(item);
 		} else {
 			// Queue current request

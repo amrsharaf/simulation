@@ -4,7 +4,9 @@ import java.util.PriorityQueue;
 
 import servers.InspectionCenter;
 import servers.MachiningCenter;
+import servers.RepairCenter;
 
+import events.BreakDownEvent;
 import events.Event;
 import events.MachiningCenterArrival;
 
@@ -42,6 +44,11 @@ public class Simulator {
 	 * Represents the factory inspection center.
 	 */
 	private InspectionCenter inspectionCenter;
+
+	/**
+	 * Represents the machine repair center.
+	 */
+	private RepairCenter repairCenter;
 
 	/**
 	 * Simulation master clock.
@@ -108,10 +115,18 @@ public class Simulator {
 	public void init() {
 		masterClock = 0.0;
 		Event machiningCenterArrival = new MachiningCenterArrival(this);
+		// TODO: replace with a random generator
 		machiningCenterArrival.setEventTime(1);
 		events.add(machiningCenterArrival);
+		
+		Event breakDown = new BreakDownEvent(this);
+		// TODO: replace this part with a random generator
+		breakDown.setEventTime(1.5);
+		events.add(breakDown);
+
 		machiningCenter = new MachiningCenter(this);
 		inspectionCenter = new InspectionCenter(this);
+		repairCenter = new RepairCenter(this);
 	}
 
 	/**
@@ -130,6 +145,15 @@ public class Simulator {
 	 */
 	public InspectionCenter getInspectionCenter() {
 		return inspectionCenter;
+	}
+
+	/**
+	 * Returns the machine repair center.
+	 * 
+	 * @return machine repair center.
+	 */
+	public RepairCenter getRepairCenter() {
+		return repairCenter;
 	}
 
 	/**
@@ -161,7 +185,14 @@ public class Simulator {
 	public void addEvent(Event event) {
 		events.add(event);
 	}
-	
+
+	/**
+	 * Adds a new event to the events list
+	 * @param event event to be added
+	 */
+	public void removeEvent(Event event) {
+		events.remove(event);
+	}
 	/**
 	 * Application main entry point. Used to run the simulation
 	 * 

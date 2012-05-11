@@ -5,7 +5,6 @@ import java.util.PriorityQueue;
 import simulation.Item;
 import simulation.Simulator;
 
-import events.Event;
 import events.MachiningCenterArrival;
 import events.MachiningCenterDeparture;
 
@@ -32,7 +31,41 @@ public class MachiningCenter {
 	 * Machining center service time
 	 */
 	private double serviceTime;
+	
+	/**
+	 * Represents the closest departure event.
+	 */
+	private MachiningCenterDeparture nearestDeparture;
 
+	/**
+	 * Indicates if the machining center is under repair.
+	 */
+	private boolean inRepair;
+	
+	/**
+	 * Check if the machining center is in repair.
+	 * @return
+	 */
+	public boolean isInRepair() {
+		return inRepair;
+	}
+	
+	/**
+	 * Change the status of the machining service.
+	 * @param value
+	 */
+	public void setInRepair(boolean value) {
+		inRepair = value;
+	}
+	
+	/**
+	 * Returns the nearest departure event.
+	 * @return
+	 */
+	public MachiningCenterDeparture getNearestDeparture() {
+		return nearestDeparture;
+	}
+	
 	/**
 	 * Machining center constructor.
 	 * @param simulator simulator controller.
@@ -42,11 +75,13 @@ public class MachiningCenter {
 		queue = new PriorityQueue<MachiningCenterArrival>();
 		// TODO: replace with a random generator
 		serviceTime = 5;
+		nearestDeparture = null;
+		inRepair = false;
 	}
 	
 	public void startService(Item item) {
 		// Schedule a new departure event from machining center.
-		Event departure = new MachiningCenterDeparture(simulator);
+		MachiningCenterDeparture departure = new MachiningCenterDeparture(simulator);
 		departure.setEventItem(item);
 		double masterClock = simulator.getMasterClock();
 		// Set the departure time to be the current simulation time + service
@@ -54,6 +89,7 @@ public class MachiningCenter {
 		departure.setEventTime(masterClock + serviceTime);
 		simulator.addEvent(departure);
 		item.setMachiningCenterDepartureTime(departure.getEventTime());
+		nearestDeparture = departure;
 		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
 		// TODO: use random generation here
 		serviceTime = 5;
