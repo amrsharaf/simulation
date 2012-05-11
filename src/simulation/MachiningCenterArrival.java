@@ -16,9 +16,15 @@ public class MachiningCenterArrival implements Event {
 	 * The time at which this event occurs.
 	 */
 	private double eventTime;
+	
+	/**
+	 * The item that arrives at the machining center.
+	 */
+	private Item item;
 
 	public MachiningCenterArrival(Simulator simulator) {
-		this.simulator = this.simulator;
+		this.simulator = simulator;
+		item = new Item();
 	}
 
 	@Override
@@ -28,17 +34,14 @@ public class MachiningCenterArrival implements Event {
 
 	@Override
 	public void handleEvent() {
-		// TODO Auto-generated method stub
-		// N = N + 1
+		int nMachiningCenter = simulator.getNmachiningCenter();
+		nMachiningCenter += 1;
+		simulator.setNmachiningCenter(nMachiningCenter);
 		simulator.setMasterClock(eventTime);
 		// log (MC , N)
-		int nMachiningCenter = simulator.getNmachiningCenter();
-		if (nMachiningCenter == 0) {
-			// THEN start_service(machine)
-			// DC = MC + ST[machine]
-			// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
-			// AC[machine] = DC + ArrivalRNG[machine].generateRN()
-			// ST[machine]=ServiceRNG[machine].generateRN()
+		if (nMachiningCenter == 1) {
+			MachiningCenter machiningCenter = simulator.getMachiningCenter();
+			machiningCenter.startService(item);
 		}
 	}
 
@@ -50,6 +53,7 @@ public class MachiningCenterArrival implements Event {
 	@Override
 	public void setEventTime(double time) {
 		this.eventTime = time;
+		this.item.setMachiningCenterArrivalTime(eventTime);
 	}
 
 }

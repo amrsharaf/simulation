@@ -22,6 +22,11 @@ public class Simulator {
 	private int nMachiningCenter;
 
 	/**
+	 * Represents the factory machining center.
+	 */
+	private MachiningCenter machiningCenter;
+
+	/**
 	 * Simulation master clock.
 	 */
 	private double masterClock;
@@ -36,8 +41,13 @@ public class Simulator {
 		this.masterClock = masterClock;
 	}
 	
+	public void setNmachiningCenter(int nMachiningCenter) {
+		this.nMachiningCenter = nMachiningCenter;
+	}
+
 	/**
 	 * Returns the simulation master clock.
+	 * 
 	 * @return master clock.
 	 */
 	public double getMasterClock() {
@@ -60,6 +70,16 @@ public class Simulator {
 		masterClock = 0.0;
 		Event machiningCenterArrival = new MachiningCenterArrival(this);
 		events.add(machiningCenterArrival);
+		machiningCenter = new MachiningCenter(this);
+	}
+
+	/**
+	 * Returns the factory machining center.
+	 * 
+	 * @return factory machining center.
+	 */
+	public MachiningCenter getMachiningCenter() {
+		return machiningCenter;
 	}
 
 	/**
