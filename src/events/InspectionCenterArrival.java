@@ -63,7 +63,6 @@ public class InspectionCenterArrival implements Event, Comparable<Event> {
 		nInspectionCenter += 1;
 		simulator.setNinspectionCenter(nInspectionCenter);
 		simulator.setMasterClock(eventTime);
-		// log (MC , N)
 		InspectionCenter inspectionCenter = simulator.getInspectionCenter();
 		if (nInspectionCenter == 1) {
 			inspectionCenter.startService(item);

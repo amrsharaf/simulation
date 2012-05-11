@@ -52,6 +52,7 @@ public class MachiningCenterDeparture implements Event, Comparable<Event> {
 		int nMachiningCenter = simulator.getNmachiningCenter();
 		nMachiningCenter -= 1;
 		simulator.setNmachiningCenter(nMachiningCenter);
+		//System.out.println(eventTime + " " + nMachiningCenter);
 		simulator.setMasterClock(eventTime);
 		// log (MC, N)
 		// Schedule new arrival at inspection center

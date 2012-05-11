@@ -100,10 +100,11 @@ public class Simulator {
 	public void addItem(Item item) {
 //		double throughput = shipment.size()
 //				/ item.getInspectionCenterDepartureTime();
+//		throughput *= 60;
 //		if (shipment.size() <= 1000)
 //			System.out.println(item.getInspectionCenterDepartureTime() + " "
 //					+ throughput);
-//
+
 		shipment.add(item);
 	}
 
