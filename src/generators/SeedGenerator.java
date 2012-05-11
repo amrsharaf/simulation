@@ -8,6 +8,7 @@ public class SeedGenerator {
 	LCG lcg;
 	ArrayList<Long> seeds;
 	final int LCG_INTERVAL = 100000;
+	final int SEEDS_COUNT = 10;
 	int index = 0;
 	
 	public SeedGenerator() {
@@ -27,7 +28,7 @@ public class SeedGenerator {
 			
 			count +=1;
 			count %= LCG_INTERVAL;
-			if (seeds.size() == 10) break;
+			if (seeds.size() == SEEDS_COUNT) break;
 		}
 		
 		System.out.println(seeds.size());
@@ -35,6 +36,8 @@ public class SeedGenerator {
 	}
 	
 	public long getNextSeed(){
+		if (index == SEEDS_COUNT)
+			return -1;
 		return seeds.get(index++);
 	}
 	
