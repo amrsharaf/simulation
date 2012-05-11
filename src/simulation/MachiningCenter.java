@@ -48,10 +48,6 @@ public class MachiningCenter {
 		item.setMachiningCenterDepartureTime(departure.getEventTime());
 		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
 		// TODO: use random generation here
-		// Schedule new arrival event
-		Event arrival = new MachiningCenterArrival(simulator);
-		arrival.setEventTime(masterClock + 1);
-		simulator.addEvent(arrival);
 		serviceTime = 5;
 	}
 	
