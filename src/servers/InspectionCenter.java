@@ -52,7 +52,6 @@ public class InspectionCenter {
 		// time.
 		departure.setEventTime(masterClock + serviceTime);
 		simulator.addEvent(departure);
-		item.setMachiningCenterDepartureTime(departure.getEventTime());
 		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
 		// TODO: use random generation here
 		serviceTime = 6;

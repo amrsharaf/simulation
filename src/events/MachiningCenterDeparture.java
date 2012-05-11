@@ -57,6 +57,7 @@ public class MachiningCenterDeparture implements Event, Comparable<Event> {
 		// Schedule new arrival at inspection center
 		Event inspectionArrival = new InspectionCenterArrival(simulator);
 		inspectionArrival.setEventTime(eventTime);
+		item.setMachiningCenterDepartureTime(eventTime);
 		inspectionArrival.setEventItem(item);
 		simulator.addEvent(inspectionArrival);
 		if (nMachiningCenter > 0) {

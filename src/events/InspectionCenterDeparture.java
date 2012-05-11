@@ -32,7 +32,7 @@ public class InspectionCenterDeparture implements Event, Comparable<Event> {
 	 * Item associated with this event.
 	 */
 	private Item item;
-
+	
 	/**
 	 * Inspection center departure event constructor.
 	 * 
@@ -54,6 +54,19 @@ public class InspectionCenterDeparture implements Event, Comparable<Event> {
 		nInspectionCenter -= 1;
 		simulator.setNinspectionCenter(nInspectionCenter);
 		simulator.setMasterClock(eventTime);
+		item.setInspectionCenterDepartureTime(eventTime);
+		simulator.addItem(item);
+		// check if item is valid for shipment
+		int rnd = simulator.getRandom().nextInt(10);
+		if(rnd < 9) {
+			simulator.addItem(item);
+		} else {
+			// return back to inspection center
+			Event arrival = new MachiningCenterArrival(simulator);
+			arrival.setEventItem(item);
+			arrival.setEventTime(eventTime);
+			simulator.addEvent(arrival);			
+		}
 		// log (MC, N)
 		if (nInspectionCenter > 0) {
 			// Select closest arrival event at inspection center to service.

@@ -88,7 +88,6 @@ public class MachiningCenter {
 		// time.
 		departure.setEventTime(masterClock + serviceTime);
 		simulator.addEvent(departure);
-		item.setMachiningCenterDepartureTime(departure.getEventTime());
 		nearestDeparture = departure;
 		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
 		// TODO: use random generation here

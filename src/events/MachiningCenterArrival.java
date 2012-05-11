@@ -20,7 +20,7 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 	 * The time at which this event occurs.
 	 */
 	private double eventTime;
-	
+
 	/**
 	 * The item that arrives at the machining center.
 	 */
@@ -28,18 +28,18 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 
 	/**
 	 * Machining center arrival event constructor
+	 * 
 	 * @param simulator
 	 */
 	public MachiningCenterArrival(Simulator simulator) {
 		this.simulator = simulator;
-		item = new Item();
 	}
 
 	@Override
 	public double getEventTime() {
 		return eventTime;
 	}
-	
+
 	@Override
 	public Item getEventItem() {
 		return item;
@@ -48,6 +48,8 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 	@Override
 	public void handleEvent() {
 		int nMachiningCenter = simulator.getNmachiningCenter();
+		if (item.getMachiningCenterArrivalTime() == 0.0)
+			item.setMachiningCenterArrivalTime(eventTime);
 		nMachiningCenter += 1;
 		simulator.setNmachiningCenter(nMachiningCenter);
 		simulator.setMasterClock(eventTime);
@@ -55,6 +57,7 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 		// Schedule new arrival event
 		Event arrival = new MachiningCenterArrival(simulator);
 		// TODO: replace this part with a random generator
+		arrival.setEventItem(new Item());
 		arrival.setEventTime(eventTime + 1);
 		simulator.addEvent(arrival);
 		MachiningCenter machiningCenter = simulator.getMachiningCenter();
@@ -74,7 +77,6 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 	@Override
 	public void setEventTime(double time) {
 		this.eventTime = time;
-		this.item.setMachiningCenterArrivalTime(eventTime);
 	}
 
 	@Override

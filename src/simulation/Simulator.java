@@ -1,6 +1,8 @@
 package simulation;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 import servers.InspectionCenter;
 import servers.MachiningCenter;
@@ -17,6 +19,11 @@ import events.MachiningCenterArrival;
  * 
  */
 public class Simulator {
+
+	/**
+	 * Random number generator with seed = 10
+	 */
+	Random random = new Random(10);
 
 	/**
 	 * Priority queue used for storing the simulation events.
@@ -56,6 +63,10 @@ public class Simulator {
 	private double masterClock;
 
 	/**
+	 * Items ready for shipment
+	 */
+	private ArrayList<Item> shipment;
+	/**
 	 * Set the simulation master clock.
 	 * 
 	 * @param masterClock
@@ -63,6 +74,22 @@ public class Simulator {
 	 */
 	public void setMasterClock(double masterClock) {
 		this.masterClock = masterClock;
+	}
+	
+	/**
+	 * Add item to shipment list
+	 * @param item
+	 */
+	public void addItem(Item item) {
+		shipment.add(item);
+	}
+	
+	/**
+	 * Return random generator
+	 * @return
+	 */
+	public Random getRandom() {
+		return random;
 	}
 	
 	/**
@@ -114,8 +141,10 @@ public class Simulator {
 	 */
 	public void init() {
 		masterClock = 0.0;
+		shipment = new ArrayList<Item>();
 		Event machiningCenterArrival = new MachiningCenterArrival(this);
 		// TODO: replace with a random generator
+		machiningCenterArrival.setEventItem(new Item());
 		machiningCenterArrival.setEventTime(1);
 		events.add(machiningCenterArrival);
 		
