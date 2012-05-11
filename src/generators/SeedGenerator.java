@@ -37,7 +37,7 @@ public class SeedGenerator {
 	
 	public long getNextSeed(){
 		if (index == SEEDS_COUNT)
-			return -1;
+			index = 0;
 		return seeds.get(index++);
 	}
 	
@@ -45,8 +45,9 @@ public class SeedGenerator {
 		SeedGenerator s =  new SeedGenerator();
 		long s1 = s.getNextSeed();
 		long s2 = s.getNextSeed();
-		LCG lcg1 = new LCG(16807, 0, 2147483647, s1);
-		LCG lcg2 = new LCG(16807, 0, 2147483647, s2);
+		System.out.println("A " + s1);
+		LCG lcg1 = LCG.getPrimaryLCG(s1);
+		LCG lcg2 = LCG.getPrimaryLCG(s2);
 		HashSet<Long> set = new HashSet<Long>();
 		for (int i = 0; i < 100000; i++) {
 			set.add(lcg1.getNextRandom());

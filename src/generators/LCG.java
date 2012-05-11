@@ -76,11 +76,14 @@ public class LCG {
 		return (x / q) - ((a * x) / m);
 	}
 
+	public static LCG getPrimaryLCG(long seed){
+		return new LCG(16807, 0, 2147483647, seed);
+	}
+	
 	public static void main(String[] args) {
-		LCG rnd = new LCG(16807, 0, 2147483647, 1);
+		LCG rnd = LCG.getPrimaryLCG(1);
 		for (int i = 0; i < 20; i++) {
 			System.out.println(rnd.getNextRandom());
-			
 		}
 	}
 
