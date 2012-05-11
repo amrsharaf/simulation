@@ -5,16 +5,15 @@ import java.util.PriorityQueue;
 /**
  * @author Amr Sharaf
  * 
- *         This class is used to represent the machining center system (Queue +
- *         Service Unit).
- * 
+ * This class is used to represent the inspection center.
+ *
  */
-public class MachiningCenter {
-
+public class InspectionCenter {
+	
 	/**
-	 * Machining center queue
+	 * Inspection center queue
 	 */
-	private PriorityQueue<MachiningCenterArrival> queue;
+	private PriorityQueue<InspectionCenterArrival> queue;
 	
 	/**
 	 * Simulator controller.
@@ -22,7 +21,7 @@ public class MachiningCenter {
 	private Simulator simulator;
 
 	/**
-	 * Machining center service time
+	 * Inspection center service time
 	 */
 	private double serviceTime;
 
@@ -30,16 +29,16 @@ public class MachiningCenter {
 	 * Machining center constructor.
 	 * @param simulator simulator controller.
 	 */
-	public MachiningCenter(Simulator simulator) {
+	public InspectionCenter(Simulator simulator) {
 		this.simulator = simulator;
-		queue = new PriorityQueue<MachiningCenterArrival>();
+		queue = new PriorityQueue<InspectionCenterArrival>();
 		// TODO: replace with a random generator
-		serviceTime = 5;
+		serviceTime = 6;
 	}
 	
 	public void startService(Item item) {
-		// Schedule a new departure event from machining center.
-		Event departure = new MachiningCenterDeparture(simulator);
+		// Schedule a new departure event from inspection center.
+		Event departure = new InspectionCenterDeparture(simulator);
 		departure.setEventItem(item);
 		double masterClock = simulator.getMasterClock();
 		// Set the departure time to be the current simulation time + service
@@ -49,14 +48,14 @@ public class MachiningCenter {
 		item.setMachiningCenterDepartureTime(departure.getEventTime());
 		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
 		// TODO: use random generation here
-		serviceTime = 5;
+		serviceTime = 6;
 	}
 	
 	/**
 	 * Enqueue event at the waiting queue.
 	 * @param event event to enqueue.
 	 */
-	public void enqueue(MachiningCenterArrival event) {
+	public void enqueue(InspectionCenterArrival event) {
 		queue.add(event);
 	}
 	
@@ -64,8 +63,9 @@ public class MachiningCenter {
 	 * Remove item from the waiting queue.
 	 * @return nearest arrival item from waiting queue.
 	 */
-	public MachiningCenterArrival dequeue() {
-		MachiningCenterArrival closestEvent = queue.poll();
+	public InspectionCenterArrival dequeue() {
+		InspectionCenterArrival closestEvent = queue.poll();
 		return closestEvent;
 	}
+
 }

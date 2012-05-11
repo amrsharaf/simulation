@@ -22,9 +22,20 @@ public class Simulator {
 	private int nMachiningCenter;
 
 	/**
+	 * Total number of jobs in the inspection center, including the current job
+	 * being served.
+	 */
+	private int nInspectionCenter;
+
+	/**
 	 * Represents the factory machining center.
 	 */
 	private MachiningCenter machiningCenter;
+
+	/**
+	 * Represents the factory inspection center.
+	 */
+	private InspectionCenter inspectionCenter;
 
 	/**
 	 * Simulation master clock.
@@ -41,8 +52,20 @@ public class Simulator {
 		this.masterClock = masterClock;
 	}
 	
+	/**
+	 * Sets the total number of jobs in machining center.
+	 * @param nMachiningCenter
+	 */
 	public void setNmachiningCenter(int nMachiningCenter) {
 		this.nMachiningCenter = nMachiningCenter;
+	}
+
+	/**
+	 * Sets the total number of jobs in inspection center.
+	 * @param nMachiningCenter
+	 */
+	public void setNinspectionCenter(int nInspectionCenter) {
+		this.nInspectionCenter = nInspectionCenter;
 	}
 
 	/**
@@ -62,6 +85,16 @@ public class Simulator {
 	public int getNmachiningCenter() {
 		return nMachiningCenter;
 	}
+	
+	/**
+	 * Returns the total number of jobs in the inspection center.
+	 * 
+	 * @return total number of jobs in inspection center.
+	 */
+	public int getNinspectionCenter() {
+		return nInspectionCenter;
+	}
+
 
 	/**
 	 * This function is used to initialize the simulation attributes.
@@ -72,6 +105,7 @@ public class Simulator {
 		machiningCenterArrival.setEventTime(1);
 		events.add(machiningCenterArrival);
 		machiningCenter = new MachiningCenter(this);
+		inspectionCenter = new InspectionCenter(this);
 	}
 
 	/**
@@ -81,6 +115,15 @@ public class Simulator {
 	 */
 	public MachiningCenter getMachiningCenter() {
 		return machiningCenter;
+	}
+	
+	/**
+	 * Returns the factory inspection center.
+	 * 
+	 * @return factory inspection center.
+	 */
+	public InspectionCenter getInspectionCenter() {
+		return inspectionCenter;
 	}
 
 	/**

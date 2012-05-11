@@ -36,11 +36,8 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 		return eventTime;
 	}
 	
-	/**
-	 * Return the arrival item
-	 * @return arrival item
-	 */
-	public Item getItem() {
+	@Override
+	public Item getEventItem() {
 		return item;
 	}
 
@@ -79,6 +76,11 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 	@Override
 	public int compareTo(Event other) {
 		return new Double(eventTime).compareTo(other.getEventTime());
+	}
+
+	@Override
+	public void setEventItem(Item item) {
+		this.item = item;
 	}
 
 }

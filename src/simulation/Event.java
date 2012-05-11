@@ -30,4 +30,16 @@ public interface Event {
 	 * @return event type
 	 */
 	public EventType getEventType();
+	
+	/**
+	 * Returns the item associated with this event.
+	 * @return Item associated with this event.
+	 */
+	public Item getEventItem();
+	
+	/**
+	 * Set the item associated with this event.
+	 * @param item
+	 */
+	public void setEventItem(Item item);
 }

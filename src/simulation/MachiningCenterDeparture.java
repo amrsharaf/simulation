@@ -1,5 +1,11 @@
 package simulation;
 
+/**
+ * @author Amr Sharaf
+ * 
+ * This class is used to represent a departure event from the machining center.
+ *
+ */
 public class MachiningCenterDeparture implements Event, Comparable<Event> {
 
 	/**
@@ -16,12 +22,17 @@ public class MachiningCenterDeparture implements Event, Comparable<Event> {
 	 * Simulator manager
 	 */
 	private Simulator simulator;
+	
+	/**
+	 * Item associated with this event.
+	 */
+	private Item item;
 
 	/**
 	 * Machining center departure event constructor.
 	 * 
 	 * @param simulator
-	 *            simulator constructor.
+	 *            simulator controller.
 	 */
 	public MachiningCenterDeparture(Simulator simulator) {
 		this.simulator = simulator;
@@ -41,11 +52,14 @@ public class MachiningCenterDeparture implements Event, Comparable<Event> {
 		// log (MC, N)
 		// Schedule new arrival at inspection center
 		Event inspectionArrival = new InspectionCenterArrival(simulator);
+		inspectionArrival.setEventTime(eventTime);
+		inspectionArrival.setEventItem(item);
+		simulator.addEvent(inspectionArrival);
 		if (nMachiningCenter > 0) {
 			// Select closest arrival event at machining center to service.
 			MachiningCenter machiningCenter = simulator.getMachiningCenter();
 			MachiningCenterArrival closestArrival = machiningCenter.dequeue();
-			machiningCenter.startService(closestArrival.getItem());			
+			machiningCenter.startService(closestArrival.getEventItem());			
 		}
 	}
 
@@ -62,6 +76,16 @@ public class MachiningCenterDeparture implements Event, Comparable<Event> {
 	@Override
 	public int compareTo(Event other) {
 		return new Double(eventTime).compareTo(other.getEventTime());
+	}
+
+	@Override
+	public Item getEventItem() {
+		return item;
+	}
+
+	@Override
+	public void setEventItem(Item item) {
+		this.item = item;
 	}
 
 }

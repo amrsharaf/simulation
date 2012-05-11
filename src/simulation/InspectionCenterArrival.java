@@ -24,6 +24,11 @@ public class InspectionCenterArrival implements Event, Comparable<Event> {
 	private double eventTime;
 
 	/**
+	 * Item associated with this event
+	 */
+	private Item item;
+	
+	/**
 	 * Inspection center arrival event constructor.
 	 * 
 	 * @param simulator
@@ -50,13 +55,33 @@ public class InspectionCenterArrival implements Event, Comparable<Event> {
 
 	@Override
 	public void handleEvent() {
-		// TODO Auto-generated method stub
-
+		int nInspectionCenter = simulator.getNinspectionCenter();
+		nInspectionCenter += 1;
+		simulator.setNinspectionCenter(nInspectionCenter);
+		simulator.setMasterClock(eventTime);
+		// log (MC , N)
+		InspectionCenter inspectionCenter = simulator.getInspectionCenter();
+		if (nInspectionCenter == 1) {
+			inspectionCenter.startService(item);
+		} else {
+			// Queue current request
+			inspectionCenter.enqueue(this);
+		}
 	}
 
 	@Override
 	public EventType getEventType() {
 		return type;
+	}
+
+	@Override
+	public Item getEventItem() {
+		return item;
+	}
+
+	@Override
+	public void setEventItem(Item item) {
+		this.item = item;
 	}
 
 }
