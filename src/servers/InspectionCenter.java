@@ -8,6 +8,7 @@ import simulation.Simulator;
 import events.Event;
 import events.InspectionCenterArrival;
 import events.InspectionCenterDeparture;
+import generators.UniformRandomVariable;
 
 /**
  * @author Amr Sharaf
@@ -33,14 +34,20 @@ public class InspectionCenter {
 	private double serviceTime;
 
 	/**
+	 * Used to generate uniform random variable for service time
+	 */
+	private UniformRandomVariable random;
+	
+	/**
 	 * Machining center constructor.
 	 * @param simulator simulator controller.
 	 */
 	public InspectionCenter(Simulator simulator) {
 		this.simulator = simulator;
 		queue = new PriorityQueue<InspectionCenterArrival>();
-		// TODO: replace with a random generator
-		serviceTime = 6;
+		long seed = simulator.getSeedGenerator().getNextSeed();
+		random = new UniformRandomVariable(0.75, 0.80, seed);
+		serviceTime = random.generate();
 	}
 	
 	public void startService(Item item) {
@@ -52,9 +59,7 @@ public class InspectionCenter {
 		// time.
 		departure.setEventTime(masterClock + serviceTime);
 		simulator.addEvent(departure);
-		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
-		// TODO: use random generation here
-		serviceTime = 6;
+		serviceTime = random.generate();
 	}
 	
 	/**

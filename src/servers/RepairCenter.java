@@ -3,6 +3,7 @@ package servers;
 import simulation.Simulator;
 import events.MachiningCenterDeparture;
 import events.RepairEvent;
+import generators.UniformRandomVariable;
 
 /**
  * @author Amr Sharaf
@@ -23,13 +24,19 @@ public class RepairCenter {
 	private double serviceTime;
 	
 	/**
+	 * Used to generate uniform random variable for repair time.
+	 */
+	private UniformRandomVariable random;
+	
+	/**
 	 * Machining center constructor.
 	 * @param simulator simulator controller.
 	 */
 	public RepairCenter(Simulator simulator) {
 		this.simulator = simulator;
-		// TODO: replace with a random generator
-		serviceTime = 5;
+		long seed = simulator.getSeedGenerator().getNextSeed();
+		random = new UniformRandomVariable(8, 12, seed);
+		serviceTime = random.generate();
 	}
 	
 	public void startService() {
@@ -49,8 +56,6 @@ public class RepairCenter {
 		// time.
 		repairEvent.setEventTime(masterClock + serviceTime);
 		simulator.addEvent(repairEvent);
-		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
-		// TODO: use random generation here
-		serviceTime = 5;
+		serviceTime = random.generate();
 	}
 }

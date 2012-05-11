@@ -53,12 +53,10 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 		nMachiningCenter += 1;
 		simulator.setNmachiningCenter(nMachiningCenter);
 		simulator.setMasterClock(eventTime);
-		// log (MC , N)
 		// Schedule new arrival event
 		Event arrival = new MachiningCenterArrival(simulator);
-		// TODO: replace this part with a random generator
 		arrival.setEventItem(new Item());
-		arrival.setEventTime(eventTime + 1);
+		arrival.setEventTime(eventTime + simulator.getExpArrival().generate());
 		simulator.addEvent(arrival);
 		MachiningCenter machiningCenter = simulator.getMachiningCenter();
 		if (nMachiningCenter == 1 && !machiningCenter.isInRepair()) {

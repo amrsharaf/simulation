@@ -57,8 +57,8 @@ public class InspectionCenterDeparture implements Event, Comparable<Event> {
 		item.setInspectionCenterDepartureTime(eventTime);
 		simulator.addItem(item);
 		// check if item is valid for shipment
-		int rnd = simulator.getRandom().nextInt(10);
-		if(rnd < 9) {
+		double rnd = simulator.getUniformRandom().generate();
+		if(rnd < 0.9) {
 			simulator.addItem(item);
 		} else {
 			// return back to inspection center

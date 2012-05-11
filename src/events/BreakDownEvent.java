@@ -54,11 +54,9 @@ public class BreakDownEvent implements Event, Comparable<Event> {
 	@Override
 	public void handleEvent() {
 		simulator.setMasterClock(eventTime);
-		// log (MC , N)
 		// Schedule new breakdown event
 		Event breakDown = new BreakDownEvent(simulator);
-		// TODO: replace this part with a random generator
-		breakDown.setEventTime(eventTime + 7.5);
+		breakDown.setEventTime(eventTime + simulator.getExpBreakDown().generate());
 		simulator.addEvent(breakDown);
 		RepairCenter repairCenter = simulator.getRepairCenter();
 		repairCenter.startService();

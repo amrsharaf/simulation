@@ -2,15 +2,15 @@ package simulation;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.util.Random;
-
 import servers.InspectionCenter;
 import servers.MachiningCenter;
 import servers.RepairCenter;
-
 import events.BreakDownEvent;
 import events.Event;
 import events.MachiningCenterArrival;
+import generators.ExponentialRandomVariable;
+import generators.SeedGenerator;
+import generators.UniformRandomVariable;
 
 /**
  * @author Amr Sharaf
@@ -21,9 +21,19 @@ import events.MachiningCenterArrival;
 public class Simulator {
 
 	/**
-	 * Random number generator with seed = 10
+	 * Generates uniform random numbers from 0 to 1
 	 */
-	Random random = new Random(10);
+	UniformRandomVariable uniformRandom;
+
+	/**
+	 * Exponential random variable with mean = 1 minute.
+	 */
+	ExponentialRandomVariable expArrival;
+
+	/**
+	 * Exponential random variable with mean = 6 hours.
+	 */
+	ExponentialRandomVariable expBreakDown;
 
 	/**
 	 * Priority queue used for storing the simulation events.
@@ -66,6 +76,12 @@ public class Simulator {
 	 * Items ready for shipment
 	 */
 	private ArrayList<Item> shipment;
+
+	/**
+	 * Seed generator, generates non-overlapping streams
+	 */
+	private SeedGenerator seedGenerator;
+
 	/**
 	 * Set the simulation master clock.
 	 * 
@@ -75,25 +91,61 @@ public class Simulator {
 	public void setMasterClock(double masterClock) {
 		this.masterClock = masterClock;
 	}
-	
+
 	/**
 	 * Add item to shipment list
+	 * 
 	 * @param item
 	 */
 	public void addItem(Item item) {
+//		double throughput = shipment.size()
+//				/ item.getInspectionCenterDepartureTime();
+//		if (shipment.size() <= 1000)
+//			System.out.println(item.getInspectionCenterDepartureTime() + " "
+//					+ throughput);
+//
 		shipment.add(item);
 	}
-	
+
 	/**
-	 * Return random generator
+	 * Return uniform random generator
+	 * 
 	 * @return
 	 */
-	public Random getRandom() {
-		return random;
+	public UniformRandomVariable getUniformRandom() {
+		return uniformRandom;
 	}
-	
+
+	/**
+	 * Returns exponential random variable with mean = 1 minute.
+	 * 
+	 * @return random variable with mean = 1 minute.
+	 */
+	public ExponentialRandomVariable getExpArrival() {
+		return expArrival;
+	}
+
+	/**
+	 * Returns exponential random variable with mean = 6 hours.
+	 * 
+	 * @return random variable with mean = 6 hours.
+	 */
+	public ExponentialRandomVariable getExpBreakDown() {
+		return expBreakDown;
+	}
+
+	/**
+	 * Returns the seed generator.
+	 * 
+	 * @return the seed generator.
+	 */
+	public SeedGenerator getSeedGenerator() {
+		return seedGenerator;
+	}
+
 	/**
 	 * Sets the total number of jobs in machining center.
+	 * 
 	 * @param nMachiningCenter
 	 */
 	public void setNmachiningCenter(int nMachiningCenter) {
@@ -102,6 +154,7 @@ public class Simulator {
 
 	/**
 	 * Sets the total number of jobs in inspection center.
+	 * 
 	 * @param nMachiningCenter
 	 */
 	public void setNinspectionCenter(int nInspectionCenter) {
@@ -125,7 +178,7 @@ public class Simulator {
 	public int getNmachiningCenter() {
 		return nMachiningCenter;
 	}
-	
+
 	/**
 	 * Returns the total number of jobs in the inspection center.
 	 * 
@@ -135,22 +188,26 @@ public class Simulator {
 		return nInspectionCenter;
 	}
 
-
 	/**
 	 * This function is used to initialize the simulation attributes.
 	 */
 	public void init() {
 		masterClock = 0.0;
 		shipment = new ArrayList<Item>();
+		seedGenerator = new SeedGenerator();
+		uniformRandom = new UniformRandomVariable(0, 1,
+				seedGenerator.getNextSeed());
+		expArrival = new ExponentialRandomVariable(1.0,
+				seedGenerator.getNextSeed());
+		expBreakDown = new ExponentialRandomVariable(1.0 / (6.0 * 60.0),
+				seedGenerator.getNextSeed());
 		Event machiningCenterArrival = new MachiningCenterArrival(this);
-		// TODO: replace with a random generator
 		machiningCenterArrival.setEventItem(new Item());
-		machiningCenterArrival.setEventTime(1);
+		machiningCenterArrival.setEventTime(expArrival.generate());
 		events.add(machiningCenterArrival);
-		
+
 		Event breakDown = new BreakDownEvent(this);
-		// TODO: replace this part with a random generator
-		breakDown.setEventTime(1.5);
+		breakDown.setEventTime(expBreakDown.generate());
 		events.add(breakDown);
 
 		machiningCenter = new MachiningCenter(this);
@@ -166,7 +223,7 @@ public class Simulator {
 	public MachiningCenter getMachiningCenter() {
 		return machiningCenter;
 	}
-	
+
 	/**
 	 * Returns the factory inspection center.
 	 * 
@@ -201,7 +258,8 @@ public class Simulator {
 		while (!simulationDone()) {
 			// Select nearest event to execute
 			Event nearestEvent = events.poll();
-			System.out.println(nearestEvent.getEventTime() +" "+nearestEvent.getEventType());
+			System.out.println(nearestEvent.getEventTime() + " "
+					+ nearestEvent.getEventType());
 			// Handle the event
 			nearestEvent.handleEvent();
 		}
@@ -209,7 +267,9 @@ public class Simulator {
 
 	/**
 	 * Adds a new event to the events list
-	 * @param event event to be added
+	 * 
+	 * @param event
+	 *            event to be added
 	 */
 	public void addEvent(Event event) {
 		events.add(event);
@@ -217,11 +277,14 @@ public class Simulator {
 
 	/**
 	 * Adds a new event to the events list
-	 * @param event event to be added
+	 * 
+	 * @param event
+	 *            event to be added
 	 */
 	public void removeEvent(Event event) {
 		events.remove(event);
 	}
+
 	/**
 	 * Application main entry point. Used to run the simulation
 	 * 

@@ -7,6 +7,7 @@ import simulation.Simulator;
 
 import events.MachiningCenterArrival;
 import events.MachiningCenterDeparture;
+import generators.UniformRandomVariable;
 
 /**
  * @author Amr Sharaf
@@ -43,6 +44,11 @@ public class MachiningCenter {
 	private boolean inRepair;
 	
 	/**
+	 * Used for generating uniform service times from [0.65, 0.75] minutes.
+	 */
+	private UniformRandomVariable random;
+	
+	/**
 	 * Check if the machining center is in repair.
 	 * @return
 	 */
@@ -73,10 +79,11 @@ public class MachiningCenter {
 	public MachiningCenter(Simulator simulator) {
 		this.simulator = simulator;
 		queue = new PriorityQueue<MachiningCenterArrival>();
-		// TODO: replace with a random generator
-		serviceTime = 5;
 		nearestDeparture = null;
 		inRepair = false;
+		long seed = simulator.getSeedGenerator().getNextSeed();
+		random = new UniformRandomVariable(0.65, 0.70, seed);
+		serviceTime = random.generate();
 	}
 	
 	public void startService(Item item) {
@@ -89,9 +96,7 @@ public class MachiningCenter {
 		departure.setEventTime(masterClock + serviceTime);
 		simulator.addEvent(departure);
 		nearestDeparture = departure;
-		// log(machine, AC[machine], MC, DC) // log entries : m, A, B, C
-		// TODO: use random generation here
-		serviceTime = 5;
+		serviceTime = random.generate();
 	}
 	
 	/**
