@@ -12,7 +12,7 @@ public class ExponentialRandomVariable {
 	}
 	
 	public double generate(){
-		double u = lcg.getNextRandom()/2147483647.0;
+		double u = ((double)lcg.getNextRandom())/LCG.getPrimaryPeriod();
 		return -1.0/rate * Math.log(u);
 	}
 	

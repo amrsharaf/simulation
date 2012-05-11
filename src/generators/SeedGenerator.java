@@ -21,7 +21,7 @@ public class SeedGenerator {
 		seeds.add(1L);
 		int count = 1;
 		long num;
-		for (int i = 0; i < 2147483647; i++) {
+		for (int i = 0; i < LCG.getPrimaryPeriod(); i++) {
 			num = lcg.getNextRandom();
 			if (count == 0)
 				seeds.add(num);
@@ -50,7 +50,7 @@ public class SeedGenerator {
 			set.add(lcg1.getNextRandom());
 			set.add(lcg2.getNextRandom());
 		}
-		//size should be 20000 as numbers shouldn't overlab
+		//size should be 200000 as numbers shouldn't overlab
 		System.out.println(set.size());
 	}
 }

@@ -76,6 +76,10 @@ public class LCG {
 		return new LCG(16807, 0, 2147483647, seed);
 	}
 	
+	public static long getPrimaryPeriod(){
+		return 2147483647;
+	}
+	
 	public static void main(String[] args) {
 		LCG rnd = LCG.getPrimaryLCG(1);
 		for (int i = 0; i < 20; i++) {
