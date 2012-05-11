@@ -6,9 +6,9 @@ public class ExponentialRandomVariable {
 	
 	LCG lcg;
 	
-	public ExponentialRandomVariable(double rate,LCG lcg){
+	public ExponentialRandomVariable(double rate,long uniformSeed){
 		this.rate = rate;
-		this.lcg = lcg;
+		this.lcg = LCG.getPrimaryLCG(uniformSeed);
 	}
 	
 	public double generate(){
@@ -17,12 +17,12 @@ public class ExponentialRandomVariable {
 	}
 	
 	public static void main(String[] args){
-		LCG lcg = LCG.getPrimaryLCG(1);
-		ExponentialRandomVariable exp = new ExponentialRandomVariable(1/6.0,lcg);
+		ExponentialRandomVariable exp = new ExponentialRandomVariable(1/6.0,1);
 		double sum = 0;
-		for (int i = 0; i < 1000; i++) {
+		
+		for (int i = 0; i < 1000; i++)
 			sum+= exp.generate();
-		}
+		
 		sum /= 1000;
 		System.out.println(sum);
 	}
