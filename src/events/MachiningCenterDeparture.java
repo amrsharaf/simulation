@@ -1,4 +1,8 @@
-package simulation;
+package events;
+
+import servers.MachiningCenter;
+import simulation.Item;
+import simulation.Simulator;
 
 /**
  * @author Amr Sharaf

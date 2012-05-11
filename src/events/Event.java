@@ -1,4 +1,6 @@
-package simulation;
+package events;
+
+import simulation.Item;
 
 /**
  * @author Amr Sharaf
@@ -6,7 +8,6 @@ package simulation;
  *
  */
 public interface Event {
-
 	
 	/**
 	 * Returns the event occurrence time

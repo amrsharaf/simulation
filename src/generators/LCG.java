@@ -1,4 +1,4 @@
-package simulation;
+package generators;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,6 +2,12 @@ package simulation;
 
 import java.util.PriorityQueue;
 
+import servers.InspectionCenter;
+import servers.MachiningCenter;
+
+import events.Event;
+import events.MachiningCenterArrival;
+
 /**
  * @author Amr Sharaf
  * 

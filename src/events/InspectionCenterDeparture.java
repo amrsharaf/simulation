@@ -1,4 +1,8 @@
-package simulation;
+package events;
+
+import servers.InspectionCenter;
+import simulation.Item;
+import simulation.Simulator;
 
 /**
  * @author Amr Sharaf

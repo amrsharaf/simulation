@@ -1,4 +1,8 @@
-package simulation;
+package events;
+
+import servers.MachiningCenter;
+import simulation.Item;
+import simulation.Simulator;
 
 public class MachiningCenterArrival implements Event, Comparable<Event> {
 

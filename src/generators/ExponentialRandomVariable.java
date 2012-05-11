@@ -1,4 +1,4 @@
-package simulation;
+package generators;
 
 public class ExponentialRandomVariable {
 
