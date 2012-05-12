@@ -111,6 +111,11 @@ public class Simulator {
 	private PrintWriter inspectionQueueWriter;
 
 	/**
+	 * Used for printing inter-arrival time in machining cetner.
+	 */
+	private PrintWriter machiningInterarrival;
+	
+	/**
 	 * Set the simulation master clock.
 	 * 
 	 * @param masterClock
@@ -234,6 +239,9 @@ public class Simulator {
 					"machining-queue.txt"));
 			inspectionQueueWriter = new PrintWriter(new FileWriter(
 					"inspection-queue.txt"));
+			machiningInterarrival = new PrintWriter(new FileWriter(
+					"machining-interarrival.txt"));
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -246,6 +254,15 @@ public class Simulator {
 	 */
 	public PrintWriter getMachiningCenterWriter() {
 		return machiningCenterWriter;
+	}
+	
+	/**
+	 * Returns the machining center inter-arrival time writer. 
+	 * 
+	 * @return inspection center service time writer.
+	 */
+	public PrintWriter getMachiningInterarrival() {
+		return machiningInterarrival;
 	}
 
 	/**
@@ -344,30 +361,23 @@ public class Simulator {
 		try {
 			PrintWriter responseTimeWriter = new PrintWriter(new FileWriter(
 					"response.txt"));
-			PrintWriter machiningInterarrival = new PrintWriter(new FileWriter(
-					"machining-interarrival.txt"));
 			PrintWriter inspectionInterarrival = new PrintWriter(
 					new FileWriter("inspection-interarrival.txt"));
 			// Print response time for the first item
 			Item item = shipment.get(0);
 			responseTimeWriter.println(item.getInspectionCenterDepartureTime()
 					- item.getMachiningCenterArrivalTime());
-			double machiningArrival = 0.0, inspectionArrival = 0.0;
+			double inspectionArrival = 0.0;
 			for (int i = 1; i < shipment.size(); i++) {
-				machiningArrival = shipment.get(i)
-						.getMachiningCenterArrivalTime()
-						- shipment.get(i - 1).getMachiningCenterArrivalTime();
 				inspectionArrival = shipment.get(i)
 						.getMachiningCenterDepartureTime()
 						- shipment.get(i - 1).getMachiningCenterDepartureTime();
 				responseTimeWriter.println(item
 						.getInspectionCenterDepartureTime()
 						- item.getMachiningCenterArrivalTime());
-				machiningInterarrival.println(machiningArrival);
 				inspectionInterarrival.println(inspectionArrival);
 			}
 			responseTimeWriter.close();
-			machiningInterarrival.close();
 			inspectionInterarrival.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -380,6 +390,7 @@ public class Simulator {
 		throughputWriter.close();
 		machiningQueueWriter.close();
 		inspectionQueueWriter.close();
+		machiningInterarrival.close();
 	}
 
 	/**
