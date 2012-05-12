@@ -53,7 +53,9 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 			// Schedule new arrival event
 			Event arrival = new MachiningCenterArrival(simulator);
 			arrival.setEventItem(new Item());
-			arrival.setEventTime(eventTime + simulator.getExpArrival().generate());
+			double interArrivalTime = simulator.getExpArrival().generate();
+			simulator.getInterarrivalWriter().println(interArrivalTime);
+			arrival.setEventTime(eventTime + interArrivalTime);
 			simulator.addEvent(arrival);
 		}
 		nMachiningCenter += 1;

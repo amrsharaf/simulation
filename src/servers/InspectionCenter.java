@@ -51,6 +51,8 @@ public class InspectionCenter {
 	}
 	
 	public void startService(Item item) {
+		// Print service time
+		simulator.getInspectionCenterWriter().println(serviceTime);
 		// Schedule a new departure event from inspection center.
 		Event departure = new InspectionCenterDeparture(simulator);
 		departure.setEventItem(item);

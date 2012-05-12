@@ -1,5 +1,8 @@
 package simulation;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import servers.InspectionCenter;
@@ -83,6 +86,21 @@ public class Simulator {
 	private SeedGenerator seedGenerator;
 
 	/**
+	 * Used for printing inter-arrival times
+	 */
+	private PrintWriter interarrivalWriter;
+
+	/**
+	 * Used for printing service time at machining center.
+	 */
+	private PrintWriter machiningCenterWriter;
+
+	/**
+	 * Used for printing service time at inspection center.
+	 */
+	private PrintWriter inspectionCenterWriter;
+
+	/**
 	 * Set the simulation master clock.
 	 * 
 	 * @param masterClock
@@ -98,12 +116,12 @@ public class Simulator {
 	 * @param item
 	 */
 	public void addItem(Item item) {
-		double throughput = shipment.size()
-				/ item.getInspectionCenterDepartureTime();
-		throughput *= 60;
-		if (shipment.size() <= 1000)
-			System.out.println(item.getInspectionCenterDepartureTime() + " "
-					+ throughput);
+//		 double throughput = shipment.size()
+//		 / item.getInspectionCenterDepartureTime();
+//		 throughput *= 60;
+//		 if (shipment.size() <= 1000)
+//		 System.out.println(item.getInspectionCenterDepartureTime() + " "
+//		 + throughput);
 
 		shipment.add(item);
 	}
@@ -190,9 +208,47 @@ public class Simulator {
 	}
 
 	/**
+	 * Initialize print writers using for printing data
+	 */
+	private void initWriters() {
+		try {
+			interarrivalWriter = new PrintWriter(new FileWriter("inter-arrival.txt"));
+			machiningCenterWriter = new PrintWriter(new FileWriter("machining-service.txt"));
+			inspectionCenterWriter = new PrintWriter(new FileWriter("inspection-service.txt"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Returns the inter-arrival time print writer.
+	 * @return inter-arrival time print writer.
+	 */
+	public PrintWriter getInterarrivalWriter() {
+		return interarrivalWriter;
+	}
+
+	/**
+	 * Returns the machining center service time writer.
+	 * @return machining center service time writer.
+	 */
+	public PrintWriter getMachiningCenterWriter() {
+		return machiningCenterWriter;
+	}
+	
+	/**
+	 * Returns the inspection center service time writer.
+	 * @return inspection center service time writer.
+	 */
+	public PrintWriter getInspectionCenterWriter() {
+		return inspectionCenterWriter;
+	}
+	
+	/**
 	 * This function is used to initialize the simulation attributes.
 	 */
 	public void init() {
+		initWriters();
 		masterClock = 0.0;
 		shipment = new ArrayList<Item>();
 		seedGenerator = new SeedGenerator();
@@ -248,21 +304,30 @@ public class Simulator {
 	 * 
 	 * @return true when the simulation has ended.
 	 */
-	public boolean simulationDone() {
-		return false;
+	public boolean simulationDone(Event event) {
+		return event.getEventTime() > 30 * 60;
 	}
 
 	/**
 	 * This method is the main method used for running the simulation.
 	 */
 	public void runSimulation() {
-		while (!simulationDone()) {
+		Event nearestEvent = events.poll();
+		nearestEvent.handleEvent();
+		while (!simulationDone(nearestEvent)) {
 			// Select nearest event to execute
-			Event nearestEvent = events.poll();
 			//System.out.println(nearestEvent);
 			// Handle the event
+			nearestEvent = events.poll();
 			nearestEvent.handleEvent();
 		}
+		terminateSimulation();
+	}
+	
+	private void terminateSimulation(){
+		interarrivalWriter.close();
+		machiningCenterWriter.close();
+		inspectionCenterWriter.close();
 	}
 
 	/**

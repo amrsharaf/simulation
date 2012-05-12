@@ -87,6 +87,8 @@ public class MachiningCenter {
 	}
 	
 	public void startService(Item item) {
+		// Print the service time
+		simulator.getMachiningCenterWriter().println(serviceTime);
 		// Schedule a new departure event from machining center.
 		MachiningCenterDeparture departure = new MachiningCenterDeparture(simulator);
 		departure.setEventItem(item);
