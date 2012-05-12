@@ -55,7 +55,6 @@ public class InspectionCenterDeparture implements Event, Comparable<Event> {
 		simulator.setNinspectionCenter(nInspectionCenter);
 		simulator.setMasterClock(eventTime);
 		item.setInspectionCenterDepartureTime(eventTime);
-		simulator.addItem(item);
 		// check if item is valid for shipment
 		double rnd = simulator.getUniformRandom().generate();
 		if(rnd < 0.9) {
@@ -99,6 +98,11 @@ public class InspectionCenterDeparture implements Event, Comparable<Event> {
 	@Override
 	public void setEventItem(Item item) {
 		this.item = item;
+	}
+
+	@Override
+	public String toString() {
+		return eventTime + " " + type + " " + item;
 	}
 
 }

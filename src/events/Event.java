@@ -44,4 +44,9 @@ public interface Event {
 	 */
 	public void setEventItem(Item item);
 	
+	/**
+	 * Print event content in a string
+	 * @return
+	 */
+	public String toString();
 }

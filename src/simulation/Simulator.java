@@ -98,12 +98,12 @@ public class Simulator {
 	 * @param item
 	 */
 	public void addItem(Item item) {
-//		double throughput = shipment.size()
-//				/ item.getInspectionCenterDepartureTime();
-//		throughput *= 60;
-//		if (shipment.size() <= 1000)
-//			System.out.println(item.getInspectionCenterDepartureTime() + " "
-//					+ throughput);
+		double throughput = shipment.size()
+				/ item.getInspectionCenterDepartureTime();
+		throughput *= 60;
+		if (shipment.size() <= 1000)
+			System.out.println(item.getInspectionCenterDepartureTime() + " "
+					+ throughput);
 
 		shipment.add(item);
 	}
@@ -259,8 +259,7 @@ public class Simulator {
 		while (!simulationDone()) {
 			// Select nearest event to execute
 			Event nearestEvent = events.poll();
-			System.out.println(nearestEvent.getEventTime() + " "
-					+ nearestEvent.getEventType());
+			//System.out.println(nearestEvent);
 			// Handle the event
 			nearestEvent.handleEvent();
 		}

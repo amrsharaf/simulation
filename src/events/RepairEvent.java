@@ -80,4 +80,10 @@ public class RepairEvent implements Event, Comparable<Event> {
 	public void setEventItem(Item item) {
 		this.item = item;
 	}
+	
+	@Override
+	public String toString() {
+		return eventTime + " " + type + " " + item;
+	}
+
 }

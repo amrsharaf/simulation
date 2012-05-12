@@ -77,4 +77,9 @@ public class BreakDownEvent implements Event, Comparable<Event> {
 		this.item = item;
 	}
 
+	@Override
+	public String toString() {
+		return eventTime + " " + type + " " + item;
+	}
+
 }

@@ -87,4 +87,8 @@ public class InspectionCenterArrival implements Event, Comparable<Event> {
 		this.item = item;
 	}
 
+	@Override
+	public String toString() {
+		return eventTime + " " + type + " " + item;
+	}
 }
