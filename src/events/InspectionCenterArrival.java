@@ -59,10 +59,10 @@ public class InspectionCenterArrival implements Event, Comparable<Event> {
 
 	@Override
 	public void handleEvent() {
+		simulator.setMasterClock(eventTime);
 		int nInspectionCenter = simulator.getNinspectionCenter();
 		nInspectionCenter += 1;
 		simulator.setNinspectionCenter(nInspectionCenter);
-		simulator.setMasterClock(eventTime);
 		InspectionCenter inspectionCenter = simulator.getInspectionCenter();
 		if (nInspectionCenter == 1) {
 			inspectionCenter.startService(item);

@@ -86,11 +86,6 @@ public class Simulator {
 	private SeedGenerator seedGenerator;
 
 	/**
-	 * Used for printing inter-arrival times
-	 */
-	private PrintWriter interarrivalWriter;
-
-	/**
 	 * Used for printing service time at machining center.
 	 */
 	private PrintWriter machiningCenterWriter;
@@ -99,6 +94,21 @@ public class Simulator {
 	 * Used for printing service time at inspection center.
 	 */
 	private PrintWriter inspectionCenterWriter;
+
+	/**
+	 * Used for printing hourly throughput
+	 */
+	private PrintWriter throughputWriter;
+
+	/**
+	 * Used for printing hourly throughput
+	 */
+	private PrintWriter machiningQueueWriter;
+
+	/**
+	 * Used for printing hourly throughput
+	 */
+	private PrintWriter inspectionQueueWriter;
 
 	/**
 	 * Set the simulation master clock.
@@ -116,13 +126,11 @@ public class Simulator {
 	 * @param item
 	 */
 	public void addItem(Item item) {
-//		 double throughput = shipment.size()
-//		 / item.getInspectionCenterDepartureTime();
-//		 throughput *= 60;
-//		 if (shipment.size() <= 1000)
-//		 System.out.println(item.getInspectionCenterDepartureTime() + " "
-//		 + throughput);
-
+		double throughput = shipment.size()
+				/ item.getInspectionCenterDepartureTime();
+		throughput *= 60;
+		throughputWriter.println(item.getInspectionCenterDepartureTime() + " "
+				+ throughput);
 		shipment.add(item);
 	}
 
@@ -169,6 +177,8 @@ public class Simulator {
 	 */
 	public void setNmachiningCenter(int nMachiningCenter) {
 		this.nMachiningCenter = nMachiningCenter;
+		int queueLength = Math.max(0, nMachiningCenter - 1);
+		machiningQueueWriter.println(masterClock + " " + queueLength);
 	}
 
 	/**
@@ -178,6 +188,8 @@ public class Simulator {
 	 */
 	public void setNinspectionCenter(int nInspectionCenter) {
 		this.nInspectionCenter = nInspectionCenter;
+		int queueLength = Math.max(0, nInspectionCenter - 1);
+		inspectionQueueWriter.println(masterClock + " " + queueLength);
 	}
 
 	/**
@@ -212,38 +224,39 @@ public class Simulator {
 	 */
 	private void initWriters() {
 		try {
-			interarrivalWriter = new PrintWriter(new FileWriter("inter-arrival.txt"));
-			machiningCenterWriter = new PrintWriter(new FileWriter("machining-service.txt"));
-			inspectionCenterWriter = new PrintWriter(new FileWriter("inspection-service.txt"));
+			machiningCenterWriter = new PrintWriter(new FileWriter(
+					"machining-service.txt"));
+			inspectionCenterWriter = new PrintWriter(new FileWriter(
+					"inspection-service.txt"));
+			throughputWriter = new PrintWriter(new FileWriter(
+					"hourly-throughput.txt"));
+			machiningQueueWriter = new PrintWriter(new FileWriter(
+					"machining-queue.txt"));
+			inspectionQueueWriter = new PrintWriter(new FileWriter(
+					"inspection-queue.txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * Returns the inter-arrival time print writer.
-	 * @return inter-arrival time print writer.
-	 */
-	public PrintWriter getInterarrivalWriter() {
-		return interarrivalWriter;
-	}
 
 	/**
 	 * Returns the machining center service time writer.
+	 * 
 	 * @return machining center service time writer.
 	 */
 	public PrintWriter getMachiningCenterWriter() {
 		return machiningCenterWriter;
 	}
-	
+
 	/**
 	 * Returns the inspection center service time writer.
+	 * 
 	 * @return inspection center service time writer.
 	 */
 	public PrintWriter getInspectionCenterWriter() {
 		return inspectionCenterWriter;
 	}
-	
+
 	/**
 	 * This function is used to initialize the simulation attributes.
 	 */
@@ -262,11 +275,9 @@ public class Simulator {
 		machiningCenterArrival.setEventItem(new Item());
 		machiningCenterArrival.setEventTime(expArrival.generate());
 		events.add(machiningCenterArrival);
-
 		Event breakDown = new BreakDownEvent(this);
 		breakDown.setEventTime(expBreakDown.generate());
 		events.add(breakDown);
-
 		machiningCenter = new MachiningCenter(this);
 		inspectionCenter = new InspectionCenter(this);
 		repairCenter = new RepairCenter(this);
@@ -316,18 +327,59 @@ public class Simulator {
 		nearestEvent.handleEvent();
 		while (!simulationDone(nearestEvent)) {
 			// Select nearest event to execute
-			//System.out.println(nearestEvent);
+			System.out.println(nearestEvent);
 			// Handle the event
 			nearestEvent = events.poll();
 			nearestEvent.handleEvent();
 		}
+		printData();
 		terminateSimulation();
 	}
-	
-	private void terminateSimulation(){
-		interarrivalWriter.close();
+
+	/**
+	 * Print the inter-arrival times at both servers and the total response time
+	 * for each item
+	 */
+	private void printData() {
+		try {
+			PrintWriter responseTimeWriter = new PrintWriter(new FileWriter(
+					"response.txt"));
+			PrintWriter machiningInterarrival = new PrintWriter(new FileWriter(
+					"machining-interarrival.txt"));
+			PrintWriter inspectionInterarrival = new PrintWriter(
+					new FileWriter("inspection-interarrival.txt"));
+			// Print response time for the first item
+			Item item = shipment.get(0);
+			responseTimeWriter.println(item.getInspectionCenterDepartureTime()
+					- item.getMachiningCenterArrivalTime());
+			double machiningArrival = 0.0, inspectionArrival = 0.0;
+			for (int i = 1; i < shipment.size(); i++) {
+				machiningArrival = shipment.get(i)
+						.getMachiningCenterArrivalTime()
+						- shipment.get(i - 1).getMachiningCenterArrivalTime();
+				inspectionArrival = shipment.get(i)
+						.getMachiningCenterDepartureTime()
+						- shipment.get(i - 1).getMachiningCenterDepartureTime();
+				responseTimeWriter.println(item
+						.getInspectionCenterDepartureTime()
+						- item.getMachiningCenterArrivalTime());
+				machiningInterarrival.println(machiningArrival);
+				inspectionInterarrival.println(inspectionArrival);
+			}
+			responseTimeWriter.close();
+			machiningInterarrival.close();
+			inspectionInterarrival.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void terminateSimulation() {
 		machiningCenterWriter.close();
 		inspectionCenterWriter.close();
+		throughputWriter.close();
+		machiningQueueWriter.close();
+		inspectionQueueWriter.close();
 	}
 
 	/**

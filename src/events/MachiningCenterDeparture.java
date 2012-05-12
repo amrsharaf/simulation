@@ -49,12 +49,10 @@ public class MachiningCenterDeparture implements Event, Comparable<Event> {
 
 	@Override
 	public void handleEvent() {
+		simulator.setMasterClock(eventTime);
 		int nMachiningCenter = simulator.getNmachiningCenter();
 		nMachiningCenter -= 1;
 		simulator.setNmachiningCenter(nMachiningCenter);
-		//System.out.println(eventTime + " " + nMachiningCenter);
-		simulator.setMasterClock(eventTime);
-		// log (MC, N)
 		// Schedule new arrival at inspection center
 		Event inspectionArrival = new InspectionCenterArrival(simulator);
 		inspectionArrival.setEventTime(eventTime);
