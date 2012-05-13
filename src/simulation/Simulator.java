@@ -115,6 +115,9 @@ public class Simulator {
 	 */
 	private PrintWriter machiningInterarrival;
 	
+	private PrintWriter inspectionInterarrival;
+
+	
 	/**
 	 * Set the simulation master clock.
 	 * 
@@ -241,6 +244,9 @@ public class Simulator {
 					"inspection-queue.txt"));
 			machiningInterarrival = new PrintWriter(new FileWriter(
 					"machining-interarrival.txt"));
+			inspectionInterarrival = new PrintWriter(
+					new FileWriter("inspection-interarrival.txt"));
+
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -265,6 +271,15 @@ public class Simulator {
 		return machiningInterarrival;
 	}
 
+	/**
+	 * Returns the inspection center inter-arrival time writer. 
+	 * 
+	 * @return inspection center service time writer.
+	 */
+	public PrintWriter getInspectionInterarrival() {
+		return inspectionInterarrival;
+	}
+	
 	/**
 	 * Returns the inspection center service time writer.
 	 * 
@@ -361,24 +376,16 @@ public class Simulator {
 		try {
 			PrintWriter responseTimeWriter = new PrintWriter(new FileWriter(
 					"response.txt"));
-			PrintWriter inspectionInterarrival = new PrintWriter(
-					new FileWriter("inspection-interarrival.txt"));
 			// Print response time for the first item
 			Item item = shipment.get(0);
 			responseTimeWriter.println(item.getInspectionCenterDepartureTime()
 					- item.getMachiningCenterArrivalTime());
-			double inspectionArrival = 0.0;
 			for (int i = 1; i < shipment.size(); i++) {
-				inspectionArrival = shipment.get(i)
-						.getMachiningCenterDepartureTime()
-						- shipment.get(i - 1).getMachiningCenterDepartureTime();
 				responseTimeWriter.println(item
 						.getInspectionCenterDepartureTime()
 						- item.getMachiningCenterArrivalTime());
-				inspectionInterarrival.println(inspectionArrival);
 			}
 			responseTimeWriter.close();
-			inspectionInterarrival.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -391,6 +398,7 @@ public class Simulator {
 		machiningQueueWriter.close();
 		inspectionQueueWriter.close();
 		machiningInterarrival.close();
+		inspectionInterarrival.close();
 	}
 
 	/**

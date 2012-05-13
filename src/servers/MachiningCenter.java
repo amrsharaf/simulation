@@ -48,6 +48,16 @@ public class MachiningCenter {
 	 */
 	private UniformRandomVariable random;
 	
+	private double lastArrival;
+	
+	public double getLastArrival(){
+		return lastArrival;
+	}
+	
+	public void setLastArrival(double arrivalTime){
+		lastArrival = arrivalTime;
+	}
+	
 	/**
 	 * Check if the machining center is in repair.
 	 * @return
@@ -84,6 +94,7 @@ public class MachiningCenter {
 		long seed = simulator.getSeedGenerator().getNextSeed();
 		random = new UniformRandomVariable(0.65, 0.70, seed);
 		serviceTime = random.generate();
+		lastArrival = 0.0;
 	}
 	
 	public void startService(Item item) {

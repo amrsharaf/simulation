@@ -38,6 +38,16 @@ public class InspectionCenter {
 	 */
 	private UniformRandomVariable random;
 	
+	private double lastArrival;
+	
+	public double getLastArrival() {
+		return lastArrival;
+	}
+	
+	public void setLastArrival(double arrivalTime){
+		lastArrival = arrivalTime;
+	}
+	
 	/**
 	 * Machining center constructor.
 	 * @param simulator simulator controller.
@@ -48,6 +58,7 @@ public class InspectionCenter {
 		long seed = simulator.getSeedGenerator().getNextSeed();
 		random = new UniformRandomVariable(0.75, 0.80, seed);
 		serviceTime = random.generate();
+		lastArrival = 0.0;
 	}
 	
 	public void startService(Item item) {

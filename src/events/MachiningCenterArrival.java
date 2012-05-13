@@ -47,6 +47,9 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 
 	@Override
 	public void handleEvent() {
+		double lastArrival = simulator.getMachiningCenter().getLastArrival();
+		simulator.getMachiningInterarrival().println(eventTime - lastArrival);
+		simulator.getMachiningCenter().setLastArrival(eventTime);
 		simulator.setMasterClock(eventTime);
 		int nMachiningCenter = simulator.getNmachiningCenter();
 		if (item.getMachiningCenterArrivalTime() == 0.0) {
@@ -55,7 +58,6 @@ public class MachiningCenterArrival implements Event, Comparable<Event> {
 			Event arrival = new MachiningCenterArrival(simulator);
 			arrival.setEventItem(new Item());
 			double interarrival = simulator.getExpArrival().generate();
-			simulator.getMachiningInterarrival().println(interarrival);
 			arrival.setEventTime(eventTime + interarrival);
 			simulator.addEvent(arrival);
 		}
