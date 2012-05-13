@@ -41,7 +41,7 @@ public class Simulator {
 	/**
 	 * Priority queue used for storing the simulation events.
 	 */
-	private PriorityQueue<Event> events = new PriorityQueue<Event>();
+	private PriorityQueue<Event> events;
 
 	/**
 	 * Total number of jobs in the machining center, including the current job
@@ -111,13 +111,22 @@ public class Simulator {
 	private PrintWriter inspectionQueueWriter;
 
 	/**
-	 * Used for printing inter-arrival time in machining cetner.
+	 * Used for printing inter-arrival time in machining center.
 	 */
 	private PrintWriter machiningInterarrival;
-	
+
+	/**
+	 * Used for printing inter-arrival time in instruction center.
+	 */
 	private PrintWriter inspectionInterarrival;
 
-	
+	/**
+	 * Initialize the simulator with a single instance of the seed generator.
+	 */
+	public Simulator() {
+		seedGenerator = new SeedGenerator();
+	}
+
 	/**
 	 * Set the simulation master clock.
 	 * 
@@ -134,9 +143,9 @@ public class Simulator {
 	 * @param item
 	 */
 	public void addItem(Item item) {
-		double throughput = shipment.size()
-				/ item.getInspectionCenterDepartureTime();
-		throughput *= 60;
+		double throughput = shipment.size();
+		// / item.getInspectionCenterDepartureTime();
+		// throughput *= 60;
 		throughputWriter.println(item.getInspectionCenterDepartureTime() + " "
 				+ throughput);
 		shipment.add(item);
@@ -230,23 +239,22 @@ public class Simulator {
 	/**
 	 * Initialize print writers using for printing data
 	 */
-	private void initWriters() {
+	private void initWriters(int runID) {
 		try {
-			machiningCenterWriter = new PrintWriter(new FileWriter(
-					"machining-service.txt"));
-			inspectionCenterWriter = new PrintWriter(new FileWriter(
-					"inspection-service.txt"));
-			throughputWriter = new PrintWriter(new FileWriter(
-					"hourly-throughput.txt"));
-			machiningQueueWriter = new PrintWriter(new FileWriter(
-					"machining-queue.txt"));
-			inspectionQueueWriter = new PrintWriter(new FileWriter(
-					"inspection-queue.txt"));
-			machiningInterarrival = new PrintWriter(new FileWriter(
-					"machining-interarrival.txt"));
-			inspectionInterarrival = new PrintWriter(
-					new FileWriter("inspection-interarrival.txt"));
-
+			machiningCenterWriter = new PrintWriter(new FileWriter(runID
+					+ "-machining-service.txt"));
+			inspectionCenterWriter = new PrintWriter(new FileWriter(runID
+					+ "-inspection-service.txt"));
+			throughputWriter = new PrintWriter(new FileWriter(runID
+					+ "-hourly-throughput.txt"));
+			machiningQueueWriter = new PrintWriter(new FileWriter(runID
+					+ "-machining-queue.txt"));
+			inspectionQueueWriter = new PrintWriter(new FileWriter(runID
+					+ "-inspection-queue.txt"));
+			machiningInterarrival = new PrintWriter(new FileWriter(runID
+					+ "-machining-interarrival.txt"));
+			inspectionInterarrival = new PrintWriter(new FileWriter(runID
+					+ "-inspection-interarrival.txt"));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -261,9 +269,9 @@ public class Simulator {
 	public PrintWriter getMachiningCenterWriter() {
 		return machiningCenterWriter;
 	}
-	
+
 	/**
-	 * Returns the machining center inter-arrival time writer. 
+	 * Returns the machining center inter-arrival time writer.
 	 * 
 	 * @return inspection center service time writer.
 	 */
@@ -272,14 +280,14 @@ public class Simulator {
 	}
 
 	/**
-	 * Returns the inspection center inter-arrival time writer. 
+	 * Returns the inspection center inter-arrival time writer.
 	 * 
 	 * @return inspection center service time writer.
 	 */
 	public PrintWriter getInspectionInterarrival() {
 		return inspectionInterarrival;
 	}
-	
+
 	/**
 	 * Returns the inspection center service time writer.
 	 * 
@@ -292,11 +300,13 @@ public class Simulator {
 	/**
 	 * This function is used to initialize the simulation attributes.
 	 */
-	public void init() {
-		initWriters();
+	public void init(int runID) {
+		initWriters(runID);
 		masterClock = 0.0;
+		nInspectionCenter = 0;
+		nMachiningCenter = 0;
+		events = new PriorityQueue<Event>();
 		shipment = new ArrayList<Item>();
-		seedGenerator = new SeedGenerator();
 		uniformRandom = new UniformRandomVariable(0, 1,
 				seedGenerator.getNextSeed());
 		expArrival = new ExponentialRandomVariable(1.0,
@@ -354,28 +364,30 @@ public class Simulator {
 	/**
 	 * This method is the main method used for running the simulation.
 	 */
-	public void runSimulation() {
-		Event nearestEvent = events.poll();
-		nearestEvent.handleEvent();
-		while (!simulationDone(nearestEvent)) {
-			// Select nearest event to execute
-			System.out.println(nearestEvent);
-			// Handle the event
-			nearestEvent = events.poll();
+	public void runSimulation(int numRuns) {
+		for (int i = 0; i < numRuns; i++) {
+			init(i);
+			Event nearestEvent = events.poll();
 			nearestEvent.handleEvent();
+			while (!simulationDone(nearestEvent)) {
+				// Select nearest event to execute
+				System.out.println(nearestEvent);
+				// Handle the event
+				nearestEvent = events.poll();
+				nearestEvent.handleEvent();
+			}
+			printResponseTime(i);
+			closePrintWriters();
 		}
-		printData();
-		terminateSimulation();
 	}
 
 	/**
-	 * Print the inter-arrival times at both servers and the total response time
-	 * for each item
+	 * Print the response time for each item
 	 */
-	private void printData() {
+	private void printResponseTime(int runID) {
 		try {
 			PrintWriter responseTimeWriter = new PrintWriter(new FileWriter(
-					"response.txt"));
+					runID + "-response.txt"));
 			// Print response time for the first item
 			Item item = shipment.get(0);
 			responseTimeWriter.println(item.getInspectionCenterDepartureTime()
@@ -391,7 +403,7 @@ public class Simulator {
 		}
 	}
 
-	private void terminateSimulation() {
+	private void closePrintWriters() {
 		machiningCenterWriter.close();
 		inspectionCenterWriter.close();
 		throughputWriter.close();
@@ -428,8 +440,8 @@ public class Simulator {
 	 */
 	public static void main(String[] args) {
 		Simulator simulator = new Simulator();
-		simulator.init();
 		// start the simulation
-		simulator.runSimulation();
+		int numRuns = 2;
+		simulator.runSimulation(numRuns);
 	}
 }
