@@ -8,7 +8,7 @@ public class SeedGenerator {
 	LCG lcg;
 	ArrayList<Long> seeds;
 	final int LCG_INTERVAL = 100000;
-	final int SEEDS_COUNT = 10;
+	final int SEEDS_COUNT = 100;
 	int index = 0;
 	
 	public SeedGenerator() {
@@ -16,7 +16,7 @@ public class SeedGenerator {
 		init();
 	}
 	
-	public void init(){
+	private void init(){
 		seeds = new ArrayList<Long>();
 		seeds.add(1L);
 		int count = 1;
