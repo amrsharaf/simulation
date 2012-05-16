@@ -59,10 +59,12 @@ public class InspectionCenterArrival implements Event, Comparable<Event> {
 
 	@Override
 	public void handleEvent() {
-		double lastArrival = simulator.getInspectionCenter().getLastArrival();
-		simulator.getInspectionInterarrival().println(eventTime - lastArrival);
-		simulator.getInspectionCenter().setLastArrival(eventTime);
 		simulator.setMasterClock(eventTime);
+		double lastArrival = simulator.getInspectionCenter().getLastArrival();
+		if(eventTime >= simulator.getDebugTime()) {
+			simulator.getInspectionInterarrival().println(eventTime - lastArrival);	
+		}
+		simulator.getInspectionCenter().setLastArrival(eventTime);
 		int nInspectionCenter = simulator.getNinspectionCenter();
 		nInspectionCenter += 1;
 		simulator.setNinspectionCenter(nInspectionCenter);

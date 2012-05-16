@@ -119,12 +119,27 @@ public class Simulator {
 	 * Used for printing inter-arrival time in instruction center.
 	 */
 	private PrintWriter inspectionInterarrival;
+	
+	/**
+	 * only events occurring at time >= debugTime will be logged to the system
+	 */
+	private double debugTime;
+	
 
 	/**
 	 * Initialize the simulator with a single instance of the seed generator.
 	 */
-	public Simulator() {
+	public Simulator(double debugTime) {
+		this.debugTime = debugTime;
 		seedGenerator = new SeedGenerator();
+	}
+	
+	/**
+	 * Returns the time used for debugging
+	 * @return
+	 */
+	public double getDebugTime() {
+		return debugTime;
 	}
 
 	/**
@@ -144,10 +159,10 @@ public class Simulator {
 	 */
 	public void addItem(Item item) {
 		double throughput = shipment.size();
-		// / item.getInspectionCenterDepartureTime();
-		// throughput *= 60;
-		throughputWriter.println(item.getInspectionCenterDepartureTime() + " "
-				+ throughput);
+		if(masterClock >= debugTime) {
+			throughputWriter.println(item.getInspectionCenterDepartureTime() + " "
+					+ throughput);			
+		}
 		shipment.add(item);
 	}
 
@@ -195,7 +210,9 @@ public class Simulator {
 	public void setNmachiningCenter(int nMachiningCenter) {
 		this.nMachiningCenter = nMachiningCenter;
 		int queueLength = Math.max(0, nMachiningCenter - 1);
-		machiningQueueWriter.println(masterClock + " " + queueLength);
+		if(masterClock >= debugTime) {
+			machiningQueueWriter.println(masterClock + " " + queueLength);	
+		}
 	}
 
 	/**
@@ -206,7 +223,9 @@ public class Simulator {
 	public void setNinspectionCenter(int nInspectionCenter) {
 		this.nInspectionCenter = nInspectionCenter;
 		int queueLength = Math.max(0, nInspectionCenter - 1);
-		inspectionQueueWriter.println(masterClock + " " + queueLength);
+		if(masterClock >= debugTime) {
+			inspectionQueueWriter.println(masterClock + " " + queueLength);	
+		}
 	}
 
 	/**
@@ -388,14 +407,12 @@ public class Simulator {
 		try {
 			PrintWriter responseTimeWriter = new PrintWriter(new FileWriter(
 					runID + "-response.txt"));
-			// Print response time for the first item
-			Item item = shipment.get(0);
-			responseTimeWriter.println(item.getInspectionCenterDepartureTime()
-					- item.getMachiningCenterArrivalTime());
-			for (int i = 1; i < shipment.size(); i++) {
-				responseTimeWriter.println(item
-						.getInspectionCenterDepartureTime()
-						- item.getMachiningCenterArrivalTime());
+			for (int i = 0; i < shipment.size(); i++) {
+				Item item = shipment.get(i);
+				if(item.getInspectionCenterDepartureTime() >= debugTime) {
+					responseTimeWriter.println(item.getInspectionCenterDepartureTime()
+							- item.getMachiningCenterArrivalTime());					
+				}
 			}
 			responseTimeWriter.close();
 		} catch (IOException e) {
@@ -439,9 +456,9 @@ public class Simulator {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Simulator simulator = new Simulator();
+		Simulator simulator = new Simulator(60.0);
 		// start the simulation
-		int numRuns = 2;
+		int numRuns = 1;
 		simulator.runSimulation(numRuns);
 	}
 }

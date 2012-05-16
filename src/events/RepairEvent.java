@@ -54,7 +54,6 @@ public class RepairEvent implements Event, Comparable<Event> {
 	@Override
 	public void handleEvent() {
 		simulator.setMasterClock(eventTime);
-		// log (MC, N)
 		int nMachiningCenter = simulator.getNmachiningCenter();
 		MachiningCenter machiningCenter = simulator.getMachiningCenter();
 		machiningCenter.setInRepair(false);
