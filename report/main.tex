@@ -213,47 +213,27 @@ freshly-repaired) machine will break down after an exponential amount of time wi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Analysis}
-    \subsection{SECTION}
-This section will describe the analytical steps done on the experiment data of the TCP connection\\
-Definitions:
-    \begin{enumerate}
-        \item x = sample collected data
-        \item n = sample size of collected data
-        \item $\bar{x}$ = sample mean 
-        \item s = sample deviation 
-        \item r = accuracy of number of samples required to follow normal distribution 
-        \item CI = confedence IntervaL 
-    \end{enumerate}
-    \subsubsection{The mean bandwidth over several trials}
-            \[
-            \bar{x} = \sum_{i=1}^n{\frac{x_{i}}{n}}
-            \]
-        \subsubsection{The 95\% confidence intervals for the mean bandwidth}
-            \[
-            n > 30
-            \]
-            \[
-            \bar{x} \sim N(\mu , \frac{s}{\sqrt{n}})
-            \]
-            \[
-            z_{1-\frac{\alpha}{2}} = z_{0.975} = 1.96 \cdots Normal Table
-            \]
-            \[
-            s = \frac{1}{n-1}\sum_{i=1}^n{(x_{i} - \bar{x})^2}
-            \]
-            \[
-            CI = \bar{x} \mp z_{1-\frac{\alpha}{2}}\frac{s}{\sqrt{n}}
-            \]
-        \subsubsection{the number of samples required to obtain the mean bandwidth with 1\% accuracy}
-            \[
-            r = 1
-            \]
-            \[
-            z = z_{1-\frac{\alpha}{2}} = 1.96
-            \]
-            \[
-            N_{sample} = \lceil (\frac{100*z*s}{r*\bar{x}})^2 \rceil
-            \]
+    \subsection{LCG}
+        \subsubsection{LCG Histogram}
+            \begin{figure}[htp]
+                \begin{center}
+                \subfigure[LCG Histogram]{
+                    \includegraphics[scale=0.5]{lcg_hist.png}
+                }
+                \end{center}
+            \end{figure}
+        \subsubsection{LCG matlab generation script}
+            \lstinputlisting{../analysis/1/sample.m}
+        \subsubsection{Chi-Square Test}
+            $D$ = 1.235240e+002
+
+            $\alpha$ = 0.05
+
+            Chi-square $(n=99,\alpha = 0.05)$ = 124
+
+            So, this generator follows the uniform distribution.
+
+
 
 \newpage
 \section{Experiment Data}
