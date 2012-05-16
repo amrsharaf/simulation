@@ -100,7 +100,51 @@ freshly-repaired) machine will break down after an exponential amount of time wi
         \item{Matlab for analysis}
     \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Procedure}
+
+\newpage
+\section{Random Number Generation}
+\subsection{Primary LCG Used}
+    \[x_{n} = 7^5 x_{n-1} mod (2^{31} -1)\]
+    This LCG has been used for its long period (2147483647) which is needed to
+    generate the seeds for uniform and exponential random generators with
+    sufficient non-overlapping periods.
+\subsection{Seed Generation}
+    Seed Generation is a process that is done once at the beginning of the
+    simulation to generate a sufficient number of seeds (currently set to 100
+    seeds).
+    The LCG described in the previous section (with a seed equals to 1) is used to generate random
+    numbers and we only store numbers that are 100,000 apart as seeds (eg.
+    $x_{1}$ , $x_{100,001}$ , $x_{200,001}$ , ... ).
+    During the simulation the Seed Generator acts as a provider for seeds for
+    various uses illustrated in the next 2 sections.
+    This technique guarantees that random numbers' generators created with
+    different seeds will never overlap (as long as they are used less than
+    100,000 times).
+\subsection{Uniform Random Generator}
+    Uniform Random generation is created by initializing a new instance of the
+    Primary LCG described above with a new seed obtained from the seed
+    generator.
+
+    To obtain uniform random numbers in a given interval $(a,b)$ the uniform
+    random number generator generates a new random number using the LCG and
+    divides it by the LCG period to obtain a real number from 0 to 1 ($u$), then
+    applies the next formula to get a new number in the desired range.
+    \[(b-a)*u + a\]
+\subsection{Exponential Random Generator}
+    The exponential random number generator is also initialized by creating a
+    new instance of the Primary LCG with a new seed obtained from the seed
+    generator.
+
+    Exponential Random generator uses the Inverse CDF (Commutative Density
+    Function) method to generate random numbers that are exponentially
+    distributed.
+
+    Each time a new random number is required the exponential random number
+    generator generates a new random real number $u$ from 0 to 1 (as described in
+    the previous section) and uses the following inverse CDF equation.
+    \[\frac{-1}{\lambda} * ln (u)\]
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
