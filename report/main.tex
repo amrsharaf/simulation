@@ -18,15 +18,15 @@
 
 \definecolor{mygrey}{gray}{.96} % Light Grey
 \lstset{ 
-    language= Matlab,              % choose the language of the code ("language=Verilog" is %popular as well)
-   tabsize=3,    						  % sets the size of the tabs in spaces (1 Tab %is replaced with 3 spaces)
+    language= Matlab,               % choose the language of the code ("language=Verilog" is %popular as well)
+    tabsize=3,    					% sets the size of the tabs in spaces (1 Tab %is replaced with 3 spaces)
 	basicstyle=\tiny,               % the size of the fonts that are used for the code
 	numbers=left,                   % where to put the line-numbers
 	numberstyle=\tiny,              % the size of the fonts that are used for the line-numbers
 	stepnumber=2,                   % the step between two line-numbers. If it's 1 each line will %be numbered
 	numbersep=5pt,                  % how far the line-numbers are from the code
 	backgroundcolor=\color{mygrey}, % choose the background color. You must add %\usepackage{color}
-	frame=single,	                 % adds a frame around the code
+	frame=single,	                % adds a frame around the code
 	tabsize=3,	                    % sets default tabsize to 2 spaces
 	captionpos=b,                   % sets the caption-position to bottom
 	breaklines=true,                % sets automatic line breaking
@@ -94,51 +94,14 @@ inspected parts are good and are sent to shipping).
 The machining center is subject to randomly occurring breakdowns. In particular, a new (or a
 freshly-repaired) machine will break down after an exponential amount of time with a mean of 6 hours. Repair times are uniform on the interval [8, 12] minutes. If a part is being processed when the machine breaks down, then the machine continues where it left off upon the completion of repair. The factory is initially empty and idle, and is working continuously without any breaks periods.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Measurement Tool}
-In this assignment, The Iperf tool has been used to collect the required data. Iperf is a tool for measuring TCP and UDP performance over a network.
+\subsection{Tools/Languages Used}
+    \begin{itemize}
+        \item{JavaSE for simulation code}
+        \item{Matlab for analysis}
+    \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Procedure}
-    \subsubsection{TCP Connection}
-        \paragraph{LAN Network}    
-        	\begin{enumerate}
-        		\item Connect two machines using a network cable.
-        		\item Choose one machine as a \textbf{server} and the other as a \textbf{client}.
-        		\item At the server machine run \textit{ipconfig command} to obtain server IP address.
-        		\item Run Iperf on server machine with a predefined port number \textit{e.g. 5001}. 
-        		\item Run Iperf on client machine with the predefined port number and the server IP address.
-        		\item repeat the above step n times where n bigger than 30
-        	\end{enumerate}
-\vspace{3mm}  
-        \paragraph{WLAN Connection}    
-            \begin{enumerate}
-        		\item Setup wireless ad hoc network between two machines.
-        		\item Choose one machine as a \textbf{server} and the other as a \textbf{client}.
-        		\item At the server machine run \textit{ipconfig command} to obtain server IP address.
-        		\item Run Iperf on server machine with a predefined port number \textit{e.g. 5001}. 
-        		\item Run Iperf on client machine with the predefined port number and the server IP address.
-        		\item repeat the above step n times where n bigger than 30
-        	\end{enumerate}
-\vspace{3mm}  
-        \paragraph{ADSL Connection}   
-            \begin{enumerate}
-            	\item Configure port forwarding on the server machine \url{http://www.portforward.com/}.
-                \item Get the external IP address of the server machine using: \url{http://www.whatismyip.com/}
-        		\item Run Iperf on server machine with a predefined port number \textit{i.e. the port configured in step 1}. 
-        		\item Run Iperf on client machine with the predefined port number and the server IP address.
-        		\item repeat the above step n times where n bigger than 30
-        	\end{enumerate}
-\vspace{3mm}  
-        \paragraph{Dail up Connection}   
-            \begin{enumerate}
-                \item Connect server machine to a dail up network 
-                \item Get the external IP address of the server machine using: \url{http://www.whatismyip.com/}.
-        		\item Run Iperf on server machine with a predefined port number . 
-        		\item repeat step 1 for client machine.
-        		\item repeat the above step n times where n bigger than 30
-        	\end{enumerate}
 
-    \subsubsection{UDP Connection}
-	Same procedures as TCP. However, the data rate has been changed to measure different throughput values. For each data rate, the experiment has been run for three times and the average results was recorded. This is done to avoid any noise in the resulting data. The packets loss ratio has also been recorded for UDP connections.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
