@@ -62,12 +62,14 @@ public class InspectionCenter {
 	}
 	
 	public void startService(Item item) {
-		// Print service time
-		simulator.getInspectionCenterWriter().println(serviceTime);
 		// Schedule a new departure event from inspection center.
 		Event departure = new InspectionCenterDeparture(simulator);
 		departure.setEventItem(item);
 		double masterClock = simulator.getMasterClock();
+		// Print service time
+		if(masterClock >= simulator.getDebugTime()) {
+			simulator.getInspectionCenterWriter().println(serviceTime);	
+		}
 		// Set the departure time to be the current simulation time + service
 		// time.
 		departure.setEventTime(masterClock + serviceTime);
