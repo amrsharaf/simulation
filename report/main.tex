@@ -15,6 +15,8 @@
 \usepackage{listings} % For source code
 \usepackage{subfig}   % For subfigures
 \usepackage[usenames,dvipsnames]{color} % For colors and names
+%\usepackage[section]{placeins}
+
 
 \definecolor{mygrey}{gray}{.96} % Light Grey
 \lstset{ 
@@ -152,7 +154,37 @@ freshly-repaired) machine will break down after an exponential amount of time wi
 \newpage
 \section{Simulation Flow Charts}
 
-INSERT FLOW CHARTS HERE
+\begin{figure}[htp]
+    \begin{center}
+    \subfigure[main diagram]{
+        \includegraphics[scale=0.5]{f0.png}
+    }
+    \subfigure[Item leaves machining center]{
+        \includegraphics[scale=0.5]{f1.png}
+    }
+    \subfigure[New item arrives machining center]{
+        \includegraphics[scale=0.5]{f2.png}
+    }
+    \end{center}
+\end{figure}
+
+\newpage
+\begin{figure}[htp]
+    \begin{center}
+    \subfigure[Machining Center Breakdown]{
+        \includegraphics[scale=0.5]{f3.png}
+    }
+    \subfigure[Machining Center Repaired]{
+        \includegraphics[scale=0.5]{f4.png}
+    }
+    \subfigure[Inspection Center Arrival]{
+        \includegraphics[scale=0.5]{f5.png}
+    }
+    \subfigure[Inspection Center Departure]{
+        \includegraphics[scale=0.5]{f6.png}
+    }
+    \end{center}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
