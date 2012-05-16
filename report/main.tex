@@ -235,18 +235,61 @@ freshly-repaired) machine will break down after an exponential amount of time wi
     \subsection{Performance Metrics}
         \subsubsection{Inter-arrival times}
             \begin{itemize}
-            \item Inspection Center Inter-arrival times
-                \begin{itemize}
-                    \item mean = 8.938989e-001
-                    \item standard deviation = 7.429512e-001
-                    \item Confidence-Interval = [ 8.789813e-001 , 9.088166e-001 ]
-                \end{itemize}
-            \item Machining Center Inter-arrival times
-                \begin{itemize}
-                    \item mean = 8.937310e-001
-                    \item standard deviation = 9.035021e-001
-                    \item Confidence-Interval = [ 8.755911e-001 , 9.118710e-001 ]
-                \end{itemize}
+                \item Machining Center Inter-arrival times
+                    \begin{itemize}
+                        \item mean = 8.937310e-001
+                        \item standard deviation = 9.035021e-001
+                        \item Confidence-Interval = [ 8.755911e-001 , 9.118710e-001 ]
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Machining Center Inter-arrival times]{
+                            \includegraphics[scale=0.5]{../analysis/5/Images/machining_interarrival_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
+                \item Inspection Center Inter-arrival times
+                    \begin{itemize}
+                        \item mean = 8.938989e-001
+                        \item standard deviation = 7.429512e-001
+                        \item Confidence-Interval = [ 8.789813e-001 , 9.088166e-001 ]
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Inspection Center Inter-arrival times]{
+                            \includegraphics[scale=0.5]{../analysis/5/Images/inspection_interarrival_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
+            \end{itemize}
+        \subsubsection{Service times}
+            \begin{itemize}
+                \item Machining Center Service times
+                    \begin{itemize}
+                        \item mean = 6.748031e-001
+                        \item standard deviation = 1.442324e-002
+                        \item Confidence-Interval = [ 6.745135e-001 , 6.750927e-001 ]
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Machining Center Service times]{
+                            \includegraphics[scale=0.5]{../analysis/5/Images/machining_service_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
+                \item Inspection Center Service times
+                    \begin{itemize}
+                        \item mean = 7.749589e-001
+                        \item standard deviation = 1.443071e-002
+                        \item Confidence-Interval = [ 7.746691e-001 , 7.752486e-001 ]
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Inspection Center Service times]{
+                            \includegraphics[scale=0.5]{../analysis/5/Images/inspection_service_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
             \end{itemize}
 
 
