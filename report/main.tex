@@ -15,14 +15,6 @@
 \usepackage{listings} % For source code
 \usepackage{subfig}   % For subfigures
 \usepackage[usenames,dvipsnames]{color} % For colors and names
-%\usepackage[pdftex]{hyperref}           % For hyperlinks and indexing the PDF
-%\hypersetup{ % play with the different link colors here
-%    colorlinks,
-%    citecolor=blue,
-%    filecolor=blue,
-%    linkcolor=blue,
-%    urlcolor=blue % set to black to prevent printing blue links
-%}
 
 \definecolor{mygrey}{gray}{.96} % Light Grey
 \lstset{ 
@@ -34,9 +26,6 @@
 	stepnumber=2,                   % the step between two line-numbers. If it's 1 each line will %be numbered
 	numbersep=5pt,                  % how far the line-numbers are from the code
 	backgroundcolor=\color{mygrey}, % choose the background color. You must add %\usepackage{color}
-	%showspaces=false,              % show spaces adding particular underscores
-	%showstringspaces=false,        % underline spaces within strings
-	%showtabs=false,                % show tabs within strings adding particular underscores
 	frame=single,	                 % adds a frame around the code
 	tabsize=3,	                    % sets default tabsize to 2 spaces
 	captionpos=b,                   % sets the caption-position to bottom
@@ -52,9 +41,9 @@
 % Remember to fill this section out for each
 % lab write-up.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand{\labno}{01}
-\newcommand{\labtitle}{Introduction to Network Performance Analysis}
-\newcommand{\authorname}{Ahmed Mohsen (14), Amr Sharaf (42)}
+\newcommand{\labno}{02}
+\newcommand{\labtitle}{Factory Simulation}
+\newcommand{\authorname}{Ahmed Kotb (11), Ahmed Mohsen (14), Amr Sharaf (42)}
 \newcommand{\professor}{Dr.Sahar Ghanem, Eng.Ahmed Essam}
 \newcommand{\classno}{CS433: Performance Evaluation}
 % END TITLE PAGE CONTENT %%%%%%%%%%%%%%%%%%%%
@@ -99,24 +88,11 @@ Instructors: \professor \\ \vspace{10pt}
 %No Text Here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Purpose}
-The goal of this assignment is to apply some statistical methods to analyze experimental data related to network performance. It is required to use the Iperf tool to analyze and compare different types of network connections. These types include the following: \begin{itemize}
-\item LAN connection between two hosts.
-\item WLAN connection between two hosts.
-\item Remote Internet connection between two hosts not in the same network. (ADSL
-connection or a Dial up connection. Testing both is a plus.)
-\end{itemize}
-\vspace{3mm} % I use this to seperate the paragraphs a bit.
+In this assignment, basic simulation techniques has been used to analyze and evaluate the performance of a factory. The factory consists of a machining center and inspection station in series. Unfinished parts arrive at the factory with exponential interarrival times with a mean of 1 minute. Processing times at the machining center are uniform on the interval [0.65, 0.70] minute, and subsequent inspection times are uniformly distributed as [0.75, 0.80] minute. Ten percent of the parts are bad and are sent back to the machine for rework (i.e. 90% of the
+inspected parts are good and are sent to shipping).
 
-The comparison should be based on the following:
-\begin{itemize}
-\item TCP connection performance analysis: It is required to obtain the bandwidth
-of a TCP connection established on each type of the networks listed above.
-\item UDP connection performance analysis: It is required to study the behavior of
-the connection throughput and loss ratio using a UDP connection under different
-data rates. Through this study, the maximum achievable throughput should be reported. This estimate should be compared to the connection bandwidth obtained by the TCP connection.
-\end{itemize}
-\vspace{3mm}  
-
+The machining center is subject to randomly occurring breakdowns. In particular, a new (or a
+freshly-repaired) machine will break down after an exponential amount of time with a mean of 6 hours. Repair times are uniform on the interval [8, 12] minutes. If a part is being processed when the machine breaks down, then the machine continues where it left off upon the completion of repair. The factory is initially empty and idle, and is working continuously without any breaks periods.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Measurement Tool}
 In this assignment, The Iperf tool has been used to collect the required data. Iperf is a tool for measuring TCP and UDP performance over a network.
