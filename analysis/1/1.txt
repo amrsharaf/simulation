@@ -1,0 +1,4 @@
+D = 1.235240e+002
+with alpha= 0.05
+chi-square(n=99,alpha = 0.05) = 124
+So, this generator follows the uniform distribution

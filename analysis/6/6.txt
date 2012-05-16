@@ -1,0 +1,2 @@
+-Initial data removal results are so noisy
+-Moving Average results => the transiant state is from hour 0 to 2
