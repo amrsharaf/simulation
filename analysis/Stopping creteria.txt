@@ -1,0 +1,11 @@
+The metric used: Hourly Throughput
+Stopping creteria: confidental interval is 1% from the mean
+
+testing stopping creteria:
+-------------------------
+1 - alpha = 0.005
+Average = 60.080000
+Standard Diviation = 0.571859
+CI = [ 60.07891 , 60.08109 ]
+
+since CI satisfies our creteria , such that 100 hour simulation is enough for satisfying 
