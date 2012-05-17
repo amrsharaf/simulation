@@ -15,6 +15,7 @@
 \usepackage{listings} % For source code
 \usepackage{subfig}   % For subfigures
 \usepackage[usenames,dvipsnames]{color} % For colors and names
+\usepackage{appendix}
 %\usepackage[section]{placeins}
 
 
@@ -536,8 +537,14 @@ freshly-repaired) machine will break down after an exponential amount of time wi
 
 
 
-                
-                
+\newpage
+\appendix
+    \section{useful matlab scripts used in analysis}
+        \subsection{Statistics}
+            \lstinputlisting{../analysis/5/Scripts/statistics.m}
+        \subsection{Statistics With Replicas}
+            \lstinputlisting{../analysis/5/Scripts/statistics_replicas.m}
+
 % IF YOU'D RATHER TYPE THE CODE, OR HAVE A SMALLER BLOCK OF CODE, USE THIS:
 %\begin{lstlisting}
 %if(something)
