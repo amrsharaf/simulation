@@ -295,6 +295,21 @@ freshly-repaired) machine will break down after an exponential amount of time wi
             \end{itemize}
 
         \newpage
+        \subsubsection{Response Times}
+            \begin{itemize}
+                \item mean = 5.937559e+000
+                \item standard deviation = 4.959343e+000
+                \item Confidence-Interval = [ 5.829767e+000 , 6.045352e+000 ]
+            \end{itemize}
+            \begin{figure}[htp]
+                \begin{center}
+                \subfigure[Response Time]{
+                    \includegraphics[scale=0.5]{../analysis/5/Images/response_time.png}
+                }
+                \end{center}
+            \end{figure}
+
+        \newpage
         \subsubsection{Queue Length}
             \begin{itemize}
                 \item Machining Center Queue
@@ -320,6 +335,7 @@ freshly-repaired) machine will break down after an exponential amount of time wi
                         \end{center}
                     \end{figure}
             \end{itemize}
+
         \newpage
         \subsubsection{Hourly Throughput}
             \begin{itemize}
@@ -339,19 +355,24 @@ freshly-repaired) machine will break down after an exponential amount of time wi
     \subsection{Transient Removal}
         \subsubsection{Moving Average}
             \begin{itemize}
-                \item Initial data removal results are noisy.
                 \item Moving Average results $=>$ the transient state is from hour 0 to 5.
             \end{itemize}
             \lstinputlisting{../analysis/6/Scripts/Moving_average.m}
             \begin{figure}[htp]
                 \begin{center}
-                \subfigure[Moving Averages with k=20]{
-                    \includegraphics[scale=0.5]{../analysis/6/Images/moving_average_k_20.png}
+                \subfigure[Moving Averages with k=15]{
+                    \includegraphics[scale=0.5]{../analysis/6/Images/moving_average_k_15.png}
+                }
+                \subfigure[Moving Averages with k=30]{
+                    \includegraphics[scale=0.5]{../analysis/6/Images/moving_average_k_30.png}
                 }
                 \end{center}
             \end{figure}
         \newpage
         \subsubsection{Initial Data Removal}
+            \begin{itemize}
+                \item Initial data removal results are noisy.
+            \end{itemize}
             \lstinputlisting{../analysis/6/Scripts/Initial_data_removal.m}
             \begin{figure}[htp]
                 \begin{center}
