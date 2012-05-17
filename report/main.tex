@@ -346,6 +346,9 @@ freshly-repaired) machine will break down after an exponential amount of time wi
             \begin{figure}[htp]
                 \begin{center}
                 \subfigure[Hourly Throughput]{
+                    \includegraphics[scale=0.5]{../analysis/5/Images/hourly_throughput.png}
+                }
+                \subfigure[Hourly Throughput Over Time]{
                     \includegraphics[scale=0.5]{../analysis/5/Images/hourly_throughput_vs_time.png}
                 }
                 \end{center}
@@ -383,21 +386,150 @@ freshly-repaired) machine will break down after an exponential amount of time wi
                 \end{center}
             \end{figure}
 
-
-
 \newpage
-\section{Experiment Data}
-This section will consist of the actual analysis of the collected data.  \vspace{5mm}
-    \subsection{TCP Connection}
-    This matlab script is used to generate the required data in the analysis of TCP connection
-    	\lstinputlisting{tcp.m}
-    	\vspace{3mm}
+\section{Selecting Stopping Criteria}
+    The metric used for stopping criteria is The Hourly Throughput.
+
+    Stopping creteria: confidence interval is 1\% from the mean.
+
+    Estimated transient period from the hourly throughput curves through 10
+    replications: 5 hours
+    \\
+
+    \subsection{Simuation Results}
+        \begin{itemize}
+            \item Simulation Duration = 100 hours
+            \item 1 - alpha = 0.005
+            \item Average = 60.080000
+            \item Standard Diviation = 0.571859
+            \item Confidence-Interval = [ 60.07891 , 60.08109 ]
+        \end{itemize}
+
+    \subsection{Conclusion}
+        Since CI satisfies our Criteria (1\% from the mean) ,then 100 hour simulation is enough.
+
+    \subsection{Recalculating performance metrics}
+        \subsubsection{Inter-arrival times}
+            \begin{itemize}
+                \item Machining Center Inter-arrival times
+                    \begin{itemize}
+                        \item mean = 8.953830e-001
+                        \item Standard deviation = 9.075272e-001
+                        \item Confidence-Interval = [ 8.766737e-001 , 9.140923e-001 ]
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Machining Center Inter-arrival times]{
+                            \includegraphics[scale=0.5]{../analysis/8/Images/machining_interarrival_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
+                \item Inspection Center Inter-arrival times
+                    \begin{itemize}
+                        \item "NOT CALCULATED YET"
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Inspection Center Inter-arrival times]{
+                            \includegraphics[scale=0.5]{../analysis/8/Images/inspection_interarrival_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
+            \end{itemize}
+
         \newpage
-% UDP SUBSECTION
-    \subsection{UDP Connection}
-    This batch script is used to collect the required data for UDP analysis using iperf
-        \lstinputlisting{run.bat}
-    	\vspace{3mm}
+        \subsubsection{Service times}
+            \begin{itemize}
+                \item Machining Center Service times
+                    \begin{itemize}
+                        \item mean = 6.748462e-001
+                        \item standard deviation = 1.442515e-002
+                        \item Confidence-Interval = [ 6.745488e-001 , 6.751437e-001 ]
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Machining Center Service times]{
+                            \includegraphics[scale=0.5]{../analysis/8/Images/maching_service_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
+                \item Inspection Center Service times
+                    \begin{itemize}
+                        \item mean = 8.953662e-001
+                        \item standard deviation = 7.293621e-001
+                        \item Confidence-Interval = [ 8.803287e-001 , 9.104037e-001 ]
+                    \end{itemize}
+                    "IMAGE DOESN't EXIST"
+                    %\begin{figure}[htp]
+                    %    \begin{center}
+                    %    \subfigure[Inspection Center Service times]{
+                    %        \includegraphics[scale=0.5]{../analysis/5/Images/inspection_service_time.png}
+                    %    }
+                    %    \end{center}
+                    %\end{figure}
+            \end{itemize}
+
+        \newpage
+        \subsubsection{Response Times}
+            \begin{itemize}
+                \item mean = 5.937559e+000
+                \item standard deviation = 4.959343e+000
+                \item Confidence-Interval = [ 5.829767e+000 , 6.045352e+000 ]
+            \end{itemize}
+            \begin{figure}[htp]
+                \begin{center}
+                \subfigure[Response Time]{
+                    \includegraphics[scale=0.5]{../analysis/8/Images/response_time.png}
+                }
+                \end{center}
+            \end{figure}
+
+        \newpage
+        \subsubsection{Queue Length}
+            \begin{itemize}
+                \item Machining Center Queue
+                    \begin{itemize}
+                        \item Average Queue Length = 1.799588
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Machine Center Queue Length Over Time]{
+                            \includegraphics[scale=0.5]{../analysis/8/Images/maching_queue.png}
+                        }
+                        \end{center}
+                    \end{figure}
+                \item Inspection Center Queue
+                    \begin{itemize}
+                        \item Average Queue Length = 2.076659
+                    \end{itemize}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Inspection Center Queue Length Over Time]{
+                            \includegraphics[scale=0.5]{../analysis/8/Images/inspection_queue.png}
+                        }
+                        \end{center}
+                    \end{figure}
+            \end{itemize}
+
+        \newpage
+        \subsubsection{Hourly Throughput}
+            \begin{itemize}
+                \item Average = 60.091489
+                \item Standard Deviation = 0.666104
+                \item Confidence-Interval = [ 6.009023e+001 , 6.009275e+001 ]
+            \end{itemize}
+            \begin{figure}[htp]
+                \begin{center}
+                \subfigure[Hourly Throughput]{
+                    \includegraphics[scale=0.5]{../analysis/8/Images/hourly_throughput.png}
+                }
+                \subfigure[Hourly Throughput Over Time]{
+                    \includegraphics[scale=0.5]{../analysis/8/Images/hourly_throughput_vs_time.png}
+                }
+                \end{center}
+            \end{figure}
+
+
 
                 
                 
