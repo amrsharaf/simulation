@@ -80,7 +80,9 @@ Instructors: \professor \\ \vspace{10pt}
 \end{center}
 \end{titlepage}
 % END TITLE PAGE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\tableofcontents
+\tableofcontents
+\newpage
+%\listoffigures
 %\newpage
 
 
@@ -155,6 +157,7 @@ freshly-repaired) machine will break down after an exponential amount of time wi
 \section{Simulation Flow Charts}
 
 \begin{figure}[htp]
+    %\caption{Main Diagram}
     \begin{center}
     \subfigure[main diagram]{
         \includegraphics[scale=0.5]{f0.png}
@@ -408,6 +411,7 @@ freshly-repaired) machine will break down after an exponential amount of time wi
     \subsection{Conclusion}
         Since CI satisfies our Criteria (1\% from the mean) ,then 100 hour simulation is enough.
 
+    \newpage
     \subsection{Recalculating performance metrics}
         \subsubsection{Inter-arrival times}
             \begin{itemize}
@@ -426,7 +430,9 @@ freshly-repaired) machine will break down after an exponential amount of time wi
                     \end{figure}
                 \item Inspection Center Inter-arrival times
                     \begin{itemize}
-                        \item "NOT CALCULATED YET"
+                        \item mean = 8.953662e-001
+                        \item standard deviation = 7.293621e-001
+                        \item Confidence-Interval = [ 8.803287e-001 , 9.104037e-001 ]
                     \end{itemize}
                     \begin{figure}[htp]
                         \begin{center}
@@ -459,14 +465,13 @@ freshly-repaired) machine will break down after an exponential amount of time wi
                         \item standard deviation = 7.293621e-001
                         \item Confidence-Interval = [ 8.803287e-001 , 9.104037e-001 ]
                     \end{itemize}
-                    "IMAGE DOESN't EXIST"
-                    %\begin{figure}[htp]
-                    %    \begin{center}
-                    %    \subfigure[Inspection Center Service times]{
-                    %        \includegraphics[scale=0.5]{../analysis/5/Images/inspection_service_time.png}
-                    %    }
-                    %    \end{center}
-                    %\end{figure}
+                    \begin{figure}[htp]
+                        \begin{center}
+                        \subfigure[Inspection Center Service times]{
+                            \includegraphics[scale=0.5]{../analysis/8/Images/inspection_service_time.png}
+                        }
+                        \end{center}
+                    \end{figure}
             \end{itemize}
 
         \newpage
